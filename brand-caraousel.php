@@ -1,4 +1,4 @@
-     
+
 <div class="container cont" style="">
 
 			<h2>Product <b> Brands</b></h2>
@@ -9,12 +9,6 @@
         <div class="carousel-inner">
                   <?php
             
-                        $con=mysqli_connect("localhost","root","","tst");
-            // Check connection
-            if (mysqli_connect_errno())
-            {
-            echo "Failed to connect to MySQL: " . mysqli_connect_error();
-            }
             $sql = "SELECT * FROM productBrand";
             $result = $con->query($sql);
             
@@ -68,23 +62,6 @@ else {
 </div>
 </div>
     <script > // Instantiate the Bootstrap carousel
-$('.x').carousel({
-  interval: false
-});
-
-// for every slide in carousel, copy the next slide's item in the slide.
-// Do the same for the next, next item.
-$('.x .y').each(function(){
-  var next = $(this).next();
-  if (!next.length) {
-    next = $(this).siblings(':first');
-  }
-  next.children(':first-child').clone().appendTo($(this));
-  
-  if (next.next().length>0) {
-    next.next().children(':first-child').clone().appendTo($(this));
-  } else {
-  	$(this).siblings(':first').children(':first-child').clone().appendTo($(this));
-  }
-});</script>
+       
+</script>
     

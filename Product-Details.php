@@ -21,12 +21,7 @@ global $PRODUCT_IMG_URL;
     {
         $productID= $_GET["productID"];
     }
-$con=mysqli_connect("localhost","root","","tst");
-// Check connection
-if (mysqli_connect_errno())
-  {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  }
+
 $sql = "SELECT * FROM productdetails p WHERE p.productID='".$productID."' ";
 $sqlImg = "SELECT * FROM productImages p WHERE p.productID='".$productID."' ";
 $sqlSize = "SELECT * FROM productsize p WHERE p.productID='".$productID."' ";
@@ -91,29 +86,6 @@ if ($resultBrand->num_rows > 0) {
 }
 
 
-/*$PRODUCT_DETAILS_HEADING="Samsung Galaxy S5 ";
-$PRODUCT_DETAILS_PRICE="1200";
-$PRODUCT_DETAILS_ACTUAL_PRICE="1000";
-$PRODUCT_DETAILS_DESCP="Here goes description consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco";
-$PRODUCT_DETAILS_RATING="3.5";
-$PRODUCT_DETAILS_ORIGIN="China";
-$PRODUCT_DETAILS_BRAND="Samsung";
-$PRODUCT_DETAILS_DELIVERY="Russia, USA, and Europe";
-$PRODUCT_DETAILS_COLOR="Black & White";
-
-$PRODUCT_DETAILS_SIZE[0]="XSM";
-$PRODUCT_DETAILS_SIZE[1]="SM";
-$PRODUCT_DETAILS_SIZE[2]="MD";
-$PRODUCT_DETAILS_SIZE[3]="LG";
-$PRODUCT_DETAILS_SIZE[4]="XLG";
-
-$PRODUCT_IMG_URL[0]="https://cdn.shopify.com/s/files/1/0259/1735/products/samsung_galaxy_s9_phone_template_2048x.jpg?v=1527584168";
-$PRODUCT_IMG_URL[1]="https://cdn.eglobalcentral.eu/images/detailed/62/samsung-galaxy-s9-plus-g965fd-dual-sim-4g-incajd.jpg";
-$PRODUCT_IMG_URL[2]="https://www.androidcentral.com/sites/androidcentral.com/files/styles/xlarge/public/article_images/2018/04/speck-presidio-clear-galaxy-s9-press.jpg?itok=WgEicU3f";
-$PRODUCT_IMG_URL[3]="https://cdn.shopify.com/s/files/1/0695/3095/products/Perspektive_Studstar_Galaxy-S9.jpg?v=1518567791";
-
-
-*/
 ?>
     
 <!DOCTYPE html>
@@ -123,7 +95,7 @@ $PRODUCT_IMG_URL[3]="https://cdn.shopify.com/s/files/1/0695/3095/products/Perspe
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  
 
-    <script ><?php include_once('product-carousel.js'); ?></script>
+    <script ><?php include_once('css/product-carousel.js'); ?></script>
     <script>
 // Instantiate the Bootstrap carousel
 $('.multi-item-carousel').carousel({
@@ -149,8 +121,8 @@ $('.multi-item-carousel .item').each(function(){
     <style><?php include('css/index.css'); ?></style>
 <style><?php include_once('product-carousel.css'); ?></style>
 <style><?php include_once('footer.css'); ?></style>
-<style><?php include_once('product-details.css'); ?></style>
-<style><?php include_once('magnifier.css'); ?></style>
+<style><?php include_once('css/product-details.css'); ?></style>
+<style><?php include_once('css/magnifier.css'); ?></style>
     <style>
 
 @media (min-width: 768px){
@@ -233,11 +205,7 @@ $('.multi-item-carousel .item').each(function(){
     }
     ?>
     
-    
- <!-- <div class="item-gallery active"> <img src="https://cdn.shopify.com/s/files/1/0259/1735/products/samsung_galaxy_s9_phone_template_2048x.jpg?v=1527584168"> </div><div class="item-gallery"> <img src="https://cdn.eglobalcentral.eu/images/detailed/62/samsung-galaxy-s9-plus-g965fd-dual-sim-4g-incajd.jpg"> </div>
-        
-  <div class="item-gallery"> <img src="https://www.androidcentral.com/sites/androidcentral.com/files/styles/xlarge/public/article_images/2018/04/speck-presidio-clear-galaxy-s9-press.jpg?itok=WgEicU3f"> </div>
-  <div class="item-gallery"> <img src="https://cdn.shopify.com/s/files/1/0695/3095/products/Perspektive_Studstar_Galaxy-S9.jpg?v=1518567791"> </div>-->
+
 </div> <!-- slider-nav.// -->
 </article> <!-- gallery-wrap .end// -->
 		</aside>

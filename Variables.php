@@ -1,4 +1,5 @@
 <?php
+require_once('common/connection.php');
 $val[0] = "Phones & Tablets";
 $val[1] = "Men's Fashion";
 $val[2] = "Women Fashion";
@@ -26,15 +27,7 @@ $CategoryImgURL[10]="http://www.flowerdeliveryphilippines.com.ph/images/products
 
 
 // Link For Brands Image 200x200 Resolution
-$BrandImgURL[0]="https://i.pinimg.com/736x/54/e5/45/54e545c669b629eb61e83b6672eb7e12--popular-logos-logo-templates.jpg";
-$BrandImgURL[8]="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfE9l_ccVgUGAzO_de1gDLrZ6RAVwSXObAFN2PYXjM09DPPjb1Ow";
-$BrandImgURL[2]="https://www.tailorbrands.com/wp-content/uploads/2016/07/bobble-logo.jpg";
-$BrandImgURL[3]="https://botw-pd.s3.amazonaws.com/styles/logo-thumbnail/s3/092010/collective_brands_0.jpg?itok=etASUklA";
-$BrandImgURL[4]="http://insiyabi.com.pk/wp-content/uploads/2017/01/khaadi-logo-300x300.jpg";
-$BrandImgURL[5]="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuSUbIAi-osdzIUUajJ4D_hdMq206iMcr2r5DQV6PPYvhuRpSt8A";
-$BrandImgURL[6]="https://botw-pd.s3.amazonaws.com/styles/logo-thumbnail/s3/0005/1512/brand.gif?itok=Mr8T7wNV";
-$BrandImgURL[7]="https://fcache1.pakwheels.com/original/4X/6/1/4/6141b896b96d6c61adf34da23f83d38682a31df0.gif";
-$BrandImgURL[1]="http://www.chromebrains.com/uploads/category_main_pic/logo-design-164s.jpg";
+
 
 // For Recommended Produucts Carousel 
 // Recommended Products Name
@@ -46,39 +39,56 @@ $R_Details[0]= 'Synthetic\n
                     Full-length injected Phylon foam provides lightweight cushioning and responsiveness\n
                     Strategically placed rubber pods provide multi-surface traction ideal for speed drills\n';
 
-$R_productName[1]="Samsung Galaxy S9 - 4GB RAM - 64GB ROM - Titanium Grey";
-$R_productName[2]="Fitness Tracker Smart i8-M";
-$R_productName[3]="Nikon D750 Body - Black";
-$R_productName[4]="HP Notebook - 15-bs108ne - 15.6 FHD - 8th Gen.";
-$R_productName[5]="Dawlance Fridge - 9122 - MONO - Grey";
-$R_productName[6]="SBM Sports Sports Track Suit SB1083";
-$R_productName[7]="Garnier Men Face wash Power White Double Action - 50ml";
-$R_productName[8]="Sony PlayStation 4 Pro 1TB - Region 2 - Black";
-$R_productName[9]="Dawlance DWT-155TB - Fully Automatic Washing Machine - 7KG - Grey";
 
-$R_productDetails[0]="Nike Black Mens Running Mens XT Air Epic Speed TR II";
-$R_productDetails[1]="Samsung Galaxy S9 - 4GB RAM - 64GB ROM - Titanium Grey";
-$R_productDetails[2]="Fitness Tracker Smart i8-M";
-$R_productDetails[3]="Nikon D750 Body - Black";
-$R_productDetails[4]="HP Notebook - 15-bs108ne - 15.6 FHD - 8th Gen.";
-$R_productDetails[5]="Dawlance Fridge - 9122 - MONO - Grey";
-$R_productDetails[6]="SBM Sports Sports Track Suit SB1083";
-$R_productDetails[7]="Garnier Men Face wash Power White Double Action - 50ml";
-$R_productDetails[8]="Sony PlayStation 4 Pro 1TB - Region 2 - Black";
-$R_productDetails[9]="Dawlance DWT-155TB - Fully Automatic Washing Machine - 7KG - Grey";
+//connection to database
+global $R_productName;
+global $productID;
+global $R_productDetails;
+global $R_productActualPrice;
+global $R_productImg;
+
+$sql = "SELECT * FROM productdetails ";
+$sqlImg = "SELECT * FROM productdetails p , productimages i where p.productID = i.productID";
+$result = $con->query($sql);
+$resultImg = $con->query($sqlImg);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    $i=0;
+    while($row = $result->fetch_assoc()) {
+        $productID[$i] =$row["productID"];
+        $R_productName[$i]=$row["productName"];
+        $R_productDetails[$i]=$row["productDescription"];
+        $R_productRating[$i]=$row["productRating"];
+        $R_productActualPrice[$i]=$row["productActualPrice"];
+        $R_productPrice[$i]=$row["productPrice"];
+        $i++;
+    }
+} else {
+    echo "0 results";
+}
+
+if ($resultImg->num_rows > 0) {
+    // output data of each row
+    $i=0;
+    $PREV_productID=0;
+    while($row = $resultImg->fetch_assoc()) {
+        if($row["productID"]!=$PREV_productID)
+        {
+          $R_productImg[$i]= $row["Img_URL"];
+       //     echo '</br>'.$row["Img_URL"];
+        $i++;
+        }
+        $PREV_productID=$row["productID"];
+    }
+} else {
+    echo "0 results";
+}
 
 
-// Recommended Products Image
-$R_productImg[0]="https://pk.daraz.io/ZRqNJJw59juCwmUxtBUWS0HBoho=/fit-in/220x220/filters:fill(white):sharpen(1,0,false):quality(80)/product/02/94947/1.jpg?4252";
-$R_productImg[1]="https://pk.daraz.io/HUib6Mx-pGtz8i4Fz4xC55_2vvs=/fit-in/220x220/filters:fill(white):sharpen(1,0,false):quality(80)/product/13/86208/1.jpg?7261";
-$R_productImg[2]="https://pk.daraz.io/9T5UDL1O9NPqXQvG2JlF6AIAcwo=/fit-in/220x220/filters:fill(white):sharpen(1,0,false):quality(80)/product/67/59928/1.jpg?5290";
-$R_productImg[3]="https://pk.daraz.io/N6zzypf6RnAP2XxrW1EaT9xbr28=/fit-in/220x220/filters:fill(white):sharpen(1,0,false):quality(80)/product/02/05176/1.jpg?8027";
-$R_productImg[4]="https://pk.daraz.io/Fq5B2OnqrIuoP75nBuY4RV9eLBI=/fit-in/220x220/filters:fill(white):sharpen(1,0,false):quality(80)/product/19/22908/1.jpg?5691";
-$R_productImg[5]="https://pk.daraz.io/U1nihqbdkIIS70fiV3bo5qx6W8w=/fit-in/220x220/filters:fill(white):sharpen(1,0,false):quality(80)/product/56/82847/1.jpg?2608";
-$R_productImg[6]="https://pk.daraz.io/VhVsB_eXEX79x70mshi883jI9LM=/fit-in/220x220/filters:fill(white):sharpen(1,0,false):quality(80)/product/60/92266/1.jpg?0650";
-$R_productImg[7]="https://pk.daraz.io/RlcoXlSMibtGElcKH0CvH7H9C3U=/fit-in/220x220/filters:fill(white):sharpen(1,0,false):quality(80)/product/47/75086/1.jpg?0153";
-$R_productImg[8]="https://pk.daraz.io/NLyKZ-ZDQtBFLb4FD4ctHbSUsDo=/fit-in/220x220/filters:fill(white):sharpen(1,0,false):quality(80)/product/94/16137/1.jpg?4449";
-$R_productImg[9]="https://pk.daraz.io/2LGN8rUZ6-PAXqlFmLrPqDr327w=/fit-in/220x220/filters:fill(white):sharpen(1,0,false):quality(80)/product/54/17407/1.jpg?0513";
+
+
+
 
 
 
@@ -92,46 +102,8 @@ $Flash_Deals[4]="https://pk.daraz.io/Fq5B2OnqrIuoP75nBuY4RV9eLBI=/fit-in/220x220
 $Flash_Deals[0]="https://pk.daraz.io/U1nihqbdkIIS70fiV3bo5qx6W8w=/fit-in/220x220/filters:fill(white):sharpen(1,0,false):quality(80)/product/56/82847/1.jpg?2608";
 $Flash_Deals[1]="https://pk.daraz.io/VhVsB_eXEX79x70mshi883jI9LM=/fit-in/220x220/filters:fill(white):sharpen(1,0,false):quality(80)/product/60/92266/1.jpg?0650";
 $Flash_Deals[9]="https://pk.daraz.io/RlcoXlSMibtGElcKH0CvH7H9C3U=/fit-in/220x220/filters:fill(white):sharpen(1,0,false):quality(80)/product/47/75086/1.jpg?0153";
-$Flash_Deals[7]="https://pk.daraz.io/NLyKZ-ZDQtBFLb4FD4ctHbSUsDo=/fit-in/220x220/fiters:fill(white):sharpen(1,0,false):quality(80)/product/94/16137/1.jpg?4449";
+$Flash_Deals[7]="images\product-items/facewash.jpg";
 $Flash_Deals[8]="https://pk.daraz.io/2LGN8rUZ6-PAXqlFmLrPqDr327w=/fit-in/220x220/filters:fill(white):sharpen(1,0,false):quality(80)/product/54/17407/1.jpg?0513";
-
-
-// Recommended Products Rating
-$R_productRating[0]=4;
-$R_productRating[1]=4.5;
-$R_productRating[2]=5;
-$R_productRating[3]=3.5;
-$R_productRating[4]=2.5;
-$R_productRating[5]=3;
-$R_productRating[6]=4;
-$R_productRating[7]=4.5;
-$R_productRating[8]=5;
-$R_productRating[9]=2;
-
-// Recommended Products Actual Price
-$R_productActualPrice[0]="10000";
-$R_productActualPrice[1]="102999";
-$R_productActualPrice[2]="5000";
-$R_productActualPrice[3]="35000";
-$R_productActualPrice[4]="90000";
-$R_productActualPrice[5]="35000";
-$R_productActualPrice[6]="1299";
-$R_productActualPrice[7]="250";
-$R_productActualPrice[8]="55000";
-$R_productActualPrice[9]="85000";
-
-
-// Recommended Products Offered Price
-$R_productPrice[0]="8500";
-$R_productPrice[1]="82199";
-$R_productPrice[2]="2500";
-$R_productPrice[3]="40000";
-$R_productPrice[4]="83999";
-$R_productPrice[5]="31600";
-$R_productPrice[6]="1500";
-$R_productPrice[7]="209";
-$R_productPrice[8]="51887";
-$R_productPrice[9]="79000";
 
 
 
@@ -170,47 +142,4 @@ for($i=0;$i<=sizeof($val);$i++)
 }
 
 
-function toMoney($val,$symbol='Rs.',$r=0)
-{
-    $n = $val; 
-    $c = is_float($n) ? 1 : number_format($n,$r);
-    $d = '.';
-    $t = ',';
-    $sign = ($n < 0) ? '-' : '';
-    $i = $n=number_format(abs($n),$r); 
-    $j = (($j = strlen($i)) > 2) ? $j % 2 : 0; 
-
-   return  $symbol.$sign .($j ? substr($i,0, $j) + $t : '').preg_replace('/(\d{3})(?=\d)/',"$1" + $t,substr($i,$j)) ;
-
-}
-function printRating($rating){
-    
-    $val = number_format($rating, 1);
-   // echo $val;
-    if($val<=4.25)
-    {
-    if($val<0.25&&$val>0||$val<1.25&&$val>1||$val<2.25&&$val>2||$val<3.25&&$val>3||$val<4.25&&$val>4)
-    {$empty= ceil(5-$val);}
-    else{
-    $empty= floor(5-$val);   }
-    }
-    else if($val>=4.75) $empty=0;
-    else $empty=0;
-    while($val>0.75)
-        {
-             echo '<li class="list-inline-item"><i class="fa fa-star orange"></i></li>';    
-            $val-=1;
-        }
-    if($val<0.75&&$val>0.25)
-        {
-        echo '<li class="list-inline-item"><i class="fa fa-star-half-o orange"></i></li>'; 
-        }
-   $i=0;
-    while($i!=$empty)
-    {
-        echo '<li class="list-inline-item"><i class="fa fa-star-o orange"></i></li>'; 
-        $i++;
-    }
-
-}
 ?>
