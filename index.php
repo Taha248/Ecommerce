@@ -1,7 +1,15 @@
 
 <?php
+
+		if (!session_id()) {
+			session_start();
+		}
 include_once('libraries.php');
+include_once('cart/class.Cart.php');
 include_once('Variables.php');
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +18,7 @@ include_once('Variables.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
  
 
-    <script ><?php include_once('product-carousel.js'); ?></script>
+    <script ><?php include_once('js/product-carousel.js'); ?></script>
 
     
 <style><?php include_once('css/index.css'); ?></style>
@@ -24,7 +32,6 @@ include_once('Variables.php');
     
     </head>
 <body style="background-color:#e9ebee;">
-    <?php include_once('navbar.php'); ?>
     <?php include_once('carousel-top.php'); ?>
     <?php include_once('category-carousel.php'); ?>
     <?php include_once('product-carousel.php'); ?>

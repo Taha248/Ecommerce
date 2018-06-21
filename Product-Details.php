@@ -146,7 +146,6 @@ $('.multi-item-carousel .item').each(function(){
     </style>
     </head>
 <body style="background-color:#e9ebee;width:100%;">
-    <?php include_once('navbar.php'); ?>
 <style>
      .btn.focus, .btn:focus, .btn:hover{
          color:white;transition: all .4s ease;
@@ -188,7 +187,7 @@ $('.multi-item-carousel .item').each(function(){
 <!-- Time for jquery action -->
 <script src="http://thecodeplayer.com/uploads/js/jquery-1.7.1.min.js" type="text/javascript"></script>
     
-<script><?php include_once('magnifier.js'); ?></script>
+<script><?php include_once('js/magnifier.js'); ?></script>
     
 </div> <!-- slider-product.// -->
 <div class="img-small-wrap">
