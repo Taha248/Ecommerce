@@ -1,85 +1,14 @@
 <?php 
 include_once('Variables.php');
-require_once('cart/class.Cart.php');
+include_once('jcart/jcart/jcart.php');
 
-
-    function Add($cart,$id,$price,$name)
-    {
-     $cart->add(''.$id, 1, [
-     'price'  => ''.$price,
-     'name'  => ''.$name,
-     ]);
-        
-        // do stuff     
-    }
-    function Remove($cart,$id)
-    {
-    $cart->remove($id);
-    }
-        
-    $cart= new Cart([
-  // Can add unlimited number of item to cart
-  'cartMaxItem'      => 0,
-  
-  // Set maximum quantity allowed per item to 99
-  'itemMaxQuantity'  => 99,
-  
-  // Do not use cookie, cart data will lost when browser is closed
-  'useCookie'        => false,
-]);
-$allItems = $cart->getItems();
-    if($_SERVER['REQUEST_METHOD'] == "GET" and isset($_GET['AddToCart'])){
-
-        
-
-       
-
-}
-
-else{
-    
-$Cart="Cart Empty";
-}
-    if($_SERVER['REQUEST_METHOD'] == "GET" and isset($_GET['remove'])){
-     $itemID=$_GET['itemID'];
-       
-        Remove($cart,$itemID);
-
-}
-
-$Cart="";
-
-$sum=0;
-foreach ($allItems as $items) {
-  foreach ($items as $item) {
-   $Cart.="  <tr>
-        <td>".$item['attributes']['name']."</td>
-        <td>".$item['quantity']."</td>
-        <td>".$item['attributes']['price']."</td>
-        <td>
-        <form action='./' method='get'><button class='btn btn-danger' name='remove'> X 
-        <input name='itemID' type='hidden' value='".$item['id']."'/>
-        </form>
-        </td>
-      </tr>";  
-      $sum+=intval($item['attributes']['price']);
-      
-  }
-
-}
-$Cart.="<tr><td style='width=100%;font-weight:bold;' colspan='3'> Total Ammount : <font style='color:green;'>Rs.".$sum."/-<font></td></tr>";
-
-if($sum==0)
-{
-    $Cart ="<tr><td style='width=100%;font-weight:bold;' colspan='4'> Cart is Empty</td></tr>";
-}
 
 ?>
 
 
 
 <!-- Navbar Top-->
-<nav class="navbar nav-top">
+<nav class="navbar nav-top navbar-fixed-top">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -112,7 +41,8 @@ if($sum==0)
                    > 
                     <span class="glyphicon glyphicon-shopping-cart"   ></span>
                     <i class="fa fa-circle fa-stack-1g count" style="" >
-                        <p >0</p>
+                        <p >
+</p>
                     </i>
                     
                     <div class="btnNav "  > 
@@ -127,26 +57,8 @@ if($sum==0)
                       <ul class="dropdown-menu">
                     <li style="">
                     <div class="container cart-empty" style="">
-                               <?php 
-    
-    echo '  <table class="table table-striped" style="width:50%;">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Quantity</th>
-        <th>Price</th>
-      </tr>
-    </thead>
-    <tbody>';
-   echo $Cart; 
-          echo '</tbody>
-  </table>
-';              
-                        
-                        
-                        
-                        
-                        ?>
+                         
+    <div id="jcart"><?php $jcart->display_cart();?></div>
                         </div>
                     </li>
                     

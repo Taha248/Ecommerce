@@ -1,11 +1,7 @@
 
 <?php
 
-		if (!session_id()) {
-			session_start();
-		}
 include_once('libraries.php');
-include_once('cart/class.Cart.php');
 include_once('Variables.php');
 
 

@@ -1,40 +1,35 @@
 
-<?php
-if(isset($_GET['action']))
-{
-    echo 'true';
-}
+	<div id="wrapper">
+			<div id="content">
 
-    if( isset($_GET['AddToCart'])&&isset($_GET['id']))
-    {
-        
-      $id=$_GET['id'];
-        $price=$_GET['price'];
-        $name=$_GET['name'];
-        Add($cart,$id,$price,$name);
-    }
-    if($_SERVER['REQUEST_METHOD'] == "GET" && isset($_POST['AddToRemove']))
-    {
-        Remove($cart,"1");
-    }
+				
+			</div>
+		<!--	<form method="post" action="" class="jcart">
+						<input type="hidden" name="jcartToken" value="<?php echo $_SESSION['jcartToken'];?>" />
+						<input type="hidden" name="my-item-id" value="ABC-123" />
+						<input type="hidden" name="my-item-name" value="Soccer Ball" />
+						<input type="hidden" name="my-item-price" value="25.00" />
+						<input type="hidden" name="my-item-url" value="" />
 
+						<ul>
+							<li><strong>Soccer Ball</strong></li>
+							<li>Price: $25.00</li>
+							<li>
+								<label>Qty: <input type="text" name="my-item-qty" value="1" size="3" /></label>
+							</li>
+						</ul>
 
+						<input type="submit" name="my-add-button" value="add to cart" class="button" />
+				</form> -->
 
-$allItems = $cart->getItems();
-foreach ($allItems as $items) {
-  foreach ($items as $item) {
-    echo 'ID: '.$item['id'].'<br />';
-    echo 'Qty: '.$item['quantity'].'<br />';
-    echo 'Nam: '.$item['attributes']['name'].'<br />';
-    echo 'Price: '.$item['attributes']['price'].'<br />';
-  }
-
-}
+		
 
 
+		<script type="text/javascript" src="jcart/js/jcart.min.js"></script>
+<script>
 
+</script>
 
-?>
 <div class="container cont" >
 <div class="container">
 	<div class="row">
@@ -95,12 +90,16 @@ foreach ($allItems as $items) {
 										</ul>
 									</div>
                                     
-                                    <form action="./" method="get">
-                                    <input type="hidden" value="'.$productID[$i].'" name="id" class="id" id="val'.$productID[$i].'"    />
-                                    <input type="hidden" value="'.$R_productName[$i].'" name="name"/>    
-                                <input type="hidden" value="'.$R_productPrice[$i].'" name="price"/>  
-                                    <input type="hidden" value="" name="e"/>  
-									<button class="btn btn-primary btn-cart" stye=""  name="AddToCart"  class="add-to-cart" onclick="" >Add to Cart</button>
+				<form method="post" action="" class="jcart">
+                
+						<input type="hidden" name="jcartToken" value="<?php echo $_SESSION["jcartToken"];" />
+						<input type="hidden" name="my-item-id" value="'.$productID[$i].'" />
+						<input type="hidden" name="my-item-name" value="'.$R_productName[$i].'" />
+						<input type="hidden" name="my-item-price" value="'.$R_productPrice[$i].'" />
+						<input type="hidden" name="my-item-url" value="" />    
+									<button class="btn btn-primary btn-cart" stye=""  name="AddToCart"   name="my-add-button" onclick="" >Add to Cart</button>
+                                    
+								<label>Qty: <input type="text" name="my-item-qty" value="1" size="3" /></label>
 									</form>
                                     
                                     <a href="./product-Details.php?productID='.$productID[$i].'" class="btn        btn-primary">
@@ -137,22 +136,4 @@ foreach ($allItems as $items) {
 	</div>
 </div>
 </div>
-<script>
- 	$(document).ready(function(){
-$('.btn-cart').click(function() {
-    var id = $(this).siblings('id').attr("value".text());
-
-    alert('VAL='+id);
- $.ajax({
-  type: "POST",
-  url: "some.php",
-  data: { name: "John" }
-}).done(function( msg ) {
-  alert( "Data Saved: " + msg );
-});    
-
-    });
-});
-
-</script>
 
