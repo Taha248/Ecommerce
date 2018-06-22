@@ -1,5 +1,36 @@
 
-	<div id="wrapper">
+<style>
+    body, html {
+    height:100%;
+    width:100%;
+    min-height:100%;
+    padding:0;
+    margin:0;
+}
+.error {
+    width:200px;
+    height:20px;
+    height:auto;
+    position:fixed;
+    left:50%;
+    margin-left:-100px;
+    bottom:10px;
+    background-color: #5cb85c;
+    color: white;
+    font-family: Calibri;
+    font-size: 20px;
+    padding:10px;
+    text-align:center;
+    border-radius: 2px;
+    -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+    
+}
+    
+    
+</style>	
+<div id="wrapper">
 			<div id="content">
 
 				
@@ -52,8 +83,10 @@
                 }
                 ?>
 			</ol>   
+               
 			<!-- Wrapper for carousel items -->
 			<div class="carousel-inner">
+                
                 <?php
                 $j=0;
                 for($i=0;$i<sizeof($R_productImg);$i++)
@@ -91,15 +124,18 @@
 									</div>
                                     
 				<form method="post" action="" class="jcart">
-                
+                <div class="qcart">
 						<input type="hidden" name="jcartToken" value="<?php echo $_SESSION["jcartToken"];" />
 						<input type="hidden" name="my-item-id" value="'.$productID[$i].'" />
 						<input type="hidden" name="my-item-name" value="'.$R_productName[$i].'" />
 						<input type="hidden" name="my-item-price" value="'.$R_productPrice[$i].'" />
 						<input type="hidden" name="my-item-url" value="" />    
 									<button class="btn btn-primary btn-cart" stye=""  name="AddToCart"   name="my-add-button" onclick="" >Add to Cart</button>
-                                    
+                                    <div class="quantity" style="display:none;    margin-top: 7px;
+                        margin-bottom: -16px;">
 								<label>Qty: <input type="text" name="my-item-qty" value="1" size="3" /></label>
+                                    </div>
+                                    </div>
 									</form>
                                     
                                     <a href="./product-Details.php?productID='.$productID[$i].'" class="btn        btn-primary">

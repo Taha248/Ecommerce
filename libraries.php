@@ -1,11 +1,4 @@
 
-    
-   <?php 
-   include_once('common/navbar.php'); 
-   include_once('common/Ratings.php');
-   include_once('common/CurrencyFormat.php');
-   require_once('common/connection.php');
-?>
    <script src="common/js/jquery.min.js"></script>
    <link rel="stylesheet"  href="common/css/bootstrap.min.css"/>
    <script src="common/js/bootstrap.min.js"></script>
@@ -27,3 +20,12 @@
    <link href="common/fonts/Oswald.css" rel="stylesheet">
    <link href="common/css/font-awesome.css" rel="stylesheet">
    <link href="common/fonts/Questrial.css" rel="stylesheet">
+
+   <?php 
+   include_once('common/navbar.php'); 
+   include_once('common/Ratings.php');
+   include_once('common/CurrencyFormat.php');
+   require_once('common/connection.php');
+?>
+
+<link  href="css/index.css" rel="stylesheet" />

@@ -1,8 +1,9 @@
       
         /* Navbar Top*/
-.nav-top{
-    background-color:#ffffff;padding-bottom:0px;margin-bottom:0px;
-    position: relative;
+.navbar-fixed-top{
+    background-color:#ffffff;padding-bottom:0px;margin-bottom:0px; 
+    
+    position: static;
         border: 1px solid transparent;
 }
 .icon-bar{
@@ -22,10 +23,17 @@
 }
 .viewCart .glyphicon-shopping-cart{color:#F17E0A;position:absolute;top:19;
 }
-.viewCart .count {color:red;top: 9px;left: 25px;position: absolute;
+.viewCart .count {    color: red;
+    top: 7px;
+    padding-top: -7px;
+    width: 9px;
+    left: 25px;
+    font-size: 16px;
+    position: absolute;
 }
 .viewCart .count p{
 position:absolute;color:white;font-weight:bold;font-size:10px;top:2px;margin-left:3px;
+    padding-left: 1px;
 }
 .btnNav{
     font-family: 'Questrial', serif;

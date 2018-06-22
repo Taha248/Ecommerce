@@ -33,7 +33,7 @@ $config['paypal']['id']           = 'seller_1282188508_biz@conceptlogic.com';
 
 // Three-letter currency code, defaults to USD if empty
 // See available options here: http://j.mp/agNsTx
-$config['currencyCode']           = '';
+$config['currencyCode']           = 'PKR';
 
 // Add a unique token to form posts to prevent CSRF exploits
 // Learn more: http://conceptlogic.com/jcart/security.php
@@ -66,13 +66,13 @@ $config['button']['empty']        = '';
 // ADVANCED SETTINGS
 
 // Display tooltip after the visitor adds an item to their cart?
-$config['tooltip']                = true;
+$config['tooltip']                = false;
 
 // Allow decimals in item quantities?
 $config['decimalQtys']            = false;
 
 // How many decimal places are allowed?
-$config['decimalPlaces']          = 1;
+$config['decimalPlaces']          = 0;
 
 // Number format for prices, see: http://php.net/manual/en/function.number-format.php
 $config['priceFormat']            = array('decimals' => 2, 'dec_point' => '.', 'thousands_sep' => ',');

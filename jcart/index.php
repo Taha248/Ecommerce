@@ -46,7 +46,7 @@ session_start();
 							<li><strong>Soccer Ball</strong></li>
 							<li>Price: $25.00</li>
 							<li>
-								<label>Qty: <input type="text" name="my-item-qty" value="1" size="3" /></label>
+								<label>Quantity: <input type="text" name="my-item-qty" value="1" size="3" /></label>
 							</li>
 						</ul>
 
@@ -66,7 +66,7 @@ session_start();
 							<li><strong>Baseball Mitt</strong></li>
 							<li>Price: $19.50</li>
 							<li>
-								<label>Qty: <input type="text" name="my-item-qty" value="1" size="3" /></label>
+								<label>Qty: <label  name="my-item-qty" value="1" size="3" /></label>
 							</li>
 						</ul>
 

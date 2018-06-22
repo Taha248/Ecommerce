@@ -66,7 +66,7 @@ $config['button']['empty']        = '';
 // ADVANCED SETTINGS
 
 // Display tooltip after the visitor adds an item to their cart?
-$config['tooltip']                = true;
+$config['tooltip']                = false;
 
 // Allow decimals in item quantities?
 $config['decimalQtys']            = false;

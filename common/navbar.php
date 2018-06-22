@@ -2,13 +2,12 @@
 include_once('Variables.php');
 include_once('jcart/jcart/jcart.php');
 
-
 ?>
 
 
 
 <!-- Navbar Top-->
-<nav class="navbar nav-top navbar-fixed-top">
+<nav class="navbar navbar-fixed-top sticky-top ">
   <div class="container-fluid">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -42,6 +41,7 @@ include_once('jcart/jcart/jcart.php');
                     <span class="glyphicon glyphicon-shopping-cart"   ></span>
                     <i class="fa fa-circle fa-stack-1g count" style="" >
                         <p >
+                           
 </p>
                     </i>
                     
@@ -54,7 +54,7 @@ include_once('jcart/jcart/jcart.php');
                         </font>
                     </div>
                  </a>
-                      <ul class="dropdown-menu">
+                      <ul class="dropdown-menu" style="width: 500px;">
                     <li style="">
                     <div class="container cart-empty" style="">
                          

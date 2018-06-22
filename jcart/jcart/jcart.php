@@ -142,6 +142,10 @@ class Jcart {
 			return true;
 		}
 	}
+    public function GetItemCount(){
+        $count =$this->itemCount;
+    echo $count;
+    }
 
 
 	/* Using post vars to remove items doesn't work because we have to pass the
@@ -326,7 +330,6 @@ class Jcart {
 			$itemAdded = $this->add_item($id, $name, $price, $qty, $url);
 			// If not true the add item function returns the error type
 			if ($itemAdded !== true) {
-				$errorType = $itemAdded;
 				switch($errorType) {
 					case 'qty':
 						$errorMessage = $config['text']['quantityError'];
@@ -432,6 +435,9 @@ if(isset($_POST['jcartUpdate']))
 			case 'EUR':
 				$currencySymbol = '&#128;';
 				break;
+                case 'PKR':
+				$currencySymbol = 'Rs.';
+				break;
 			case 'GBP':
 				$currencySymbol = '&#163;';
 				break;
@@ -502,7 +508,7 @@ if(isset($_POST['jcartUpdate']))
 		echo tab(1) . "<form method='post' action='$checkout'>\n";
 		echo tab(2) . "<fieldset>\n";
 		echo tab(3) . "<input type='hidden' name='jcartToken' value='{$_SESSION['jcartToken']}' />\n";
-		echo tab(3) . "<table class='table table-striped' style='width:50%;'>\n";
+		echo tab(3) . "<table class='table table-striped' style='width:100%;'>\n";
 		echo tab(4) . "<thead>\n";
 		echo tab(5) . "<tr>\n";
         
@@ -518,7 +524,7 @@ if(isset($_POST['jcartUpdate']))
 		// Display the cart footer
 		echo tab(4) . "<tfoot>\n";
 		echo tab(5) . "<tr>\n";
-		echo tab(6) . "<th colspan='3'>\n";
+		echo tab(6) . "<th colspan='4' style='text-align:right;'>\n";
 
 		// If this is the checkout hide the cart checkout button
 		if ($isCheckout !== true) {
@@ -529,7 +535,7 @@ if(isset($_POST['jcartUpdate']))
 		if(isset($src))	echo tab(7) . "<input type='$inputType' $src id='jcart-checkout' name='jcartCheckout' class='jcart-button' value='{$config['text']['checkout']}' />\n";
 		}
 
-		echo tab(7) . "<span id='jcart-subtotal'>{$config['text']['subtotal']}: <strong>$currencySymbol" . number_format($this->subtotal, $priceFormat['decimals'], $priceFormat['dec_point'], $priceFormat['thousands_sep']) . "</strong></span>\n";
+		echo tab(7) . "<span id='jcart-subtotal'>{$config['text']['subtotal']}: <strong>$currencySymbol" .'<div style="color:green;display:inline;">'. number_format($this->subtotal, $priceFormat['decimals'], $priceFormat['dec_point'], $priceFormat['thousands_sep']) . "</div></strong></span>\n ";
 		echo tab(6) . "</th>\n";
 		echo tab(5) . "</tr>\n";
 		echo tab(4) . "</tfoot>\n";			
@@ -554,13 +560,16 @@ if(isset($_POST['jcartUpdate']))
 				echo tab(6) . "</td>\n";
                 echo tab(6) . "<td class='jcart-item-qty'>\n";
 				echo tab(7) . "<input name='jcartItemId[]' type='hidden' value='{$item['id']}' />\n";
-				echo tab(7) . "<input id='jcartItemQty-{$item['id']}' name='jcartItemQty[]' size='2' type='text' value='{$item['qty']}' />\n";
+				echo tab(7) . "<label id='jcartItemQty-{$item['id']}' name='jcartItemQty[]' size='2'   > {$item['qty']}</label>\n";
 				echo tab(6) . "</td>\n";
 				
 				echo tab(6) . "<td class='jcart-item-price'>\n";
 				echo tab(7) . "<span>$currencySymbol" . number_format($item['subtotal'], $priceFormat['decimals'], $priceFormat['dec_point'], $priceFormat['thousands_sep']) . "</span><input name='jcartItemPrice[]' type='hidden' value='{$item['price']}' />\n";
-				echo tab(7) . "<a class='jcart-remove' href='?jcartRemove={$item['id']}'>{$config['text']['removeLink']}</a>\n";
+		
 				echo tab(6) . "</td>\n";
+                		echo tab(7) . "<td><a class='jcart-remove' href='?jcartRemove={$item['id']}'>
+                <i class='fa fa-remove' style='font-size:24px'></i>
+               </a></td>\n";
 				echo tab(5) . "</tr>\n";
 			}
 		}
@@ -586,7 +595,7 @@ if(isset($src))
 			$src = " src='{$config['button']['empty']}' alt='{$config['text']['emptyButton']}' title='' ";
 		}
         $src="";
-		echo tab(4) . "<input type='$inputType'  name='jcartEmpty' value='{$config['text']['emptyButton']}' class='jcart-button' />\n";
+		
 		echo tab(3) . "</div>\n";
 
 		// If this is the checkout display the PayPal checkout button
