@@ -115,7 +115,7 @@ class Jcart {
 	*
 	* @return boolean
 	*/
-	private function update_item($id, $qty) {
+	public function update_item($id, $qty) {
 
 		// If the quantity is zero, no futher validation is required
 		if ((int) $qty === 0) {
@@ -180,6 +180,11 @@ class Jcart {
 		$this->items = $tmpItems;
 		$this->update_subtotal();
 	}
+    
+    
+	public function getTotal() {
+    return $this->subtotal;
+    }
 
 	/**
 	* Empty the cart
@@ -394,7 +399,7 @@ if(isset($_POST['jcartUpdate']))
 		the visitor first clicks checkout), then check for the hidden input
 		sent with Ajax request (set when visitor has javascript enabled and
 		updates an item quantity). */
-		$isCheckout = strpos(request_uri(), $checkout);
+		@$isCheckout = strpos(request_uri(), $checkout);
         if(isset($_REQUEST['jcartIsCheckout'])){
 		if ($isCheckout !== false || $_REQUEST['jcartIsCheckout'] == 'true') {
 			$isCheckout = true;
@@ -617,9 +622,33 @@ if(isset($src))
 			echo tab(3) . "<input type='$inputType' $src id='jcart-paypal-checkout' name='jcartPaypalCheckout' value='{$config['text']['checkoutPaypal']}' $disablePaypalCheckout />\n";
 		}
 
-		echo tab(2) . "</fieldset>\n";
 		echo tab(1) . "</form>\n\n";
 		
+		echo tab(2) . "</fieldset>\n
+                        <div>
+                        <form action='./ViewCart.php'>    <button  style='margin-bottom: 10px;margin-top:5px;display:inline;' class='button button--nina button--text-thick button--text-upper button--size-s btn-account' data-text='View Cart'>
+						            <span  class='ninaBtnOnHover'>V</span>
+                                    <span  class='ninaBtnOnHover'>i</span>
+                                    <span  class='ninaBtnOnHover'>e</span>
+                                    <span  class='ninaBtnOnHover'>w</span>  <span class='ninaBtnOnHover'>&nbsp;</span>
+                                    <span  class='ninaBtnOnHover'>C</span>
+                                    <span  class='ninaBtnOnHover'>a</span>
+                                    <span  class='ninaBtnOnHover'>r</span>
+                                    <span  class='ninaBtnOnHover'>t</span>
+                                  
+					       </button>
+                         <a href='#' >
+                            <button  style='margin-bottom: 5px;margin-top:10px;display:inline;' class='button button--nina button--text-thick button--text-upper button--size-s btn-account' data-text='Order Now'>
+						            <span  class='ninaBtnOnHover'>O</span>
+                                    <span  class='ninaBtnOnHover'>r</span>
+                                    <span  class='ninaBtnOnHover'>d</span>
+                                    <span  class='ninaBtnOnHover'>e</span> 
+                                    <span  class='ninaBtnOnHover'>r</span>
+					       </button>
+                        </a>
+                        </div>
+                        </form>
+        ";
 		echo tab(1) . "<div id='jcart-tooltip'></div>\n";
 	}
 }

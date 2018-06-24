@@ -46,6 +46,23 @@ if ($resultBrand->num_rows > 0) {
 }
 
 ?>
+<head>
+<style>
+    include_once('css/index.css');
+
+    </style>
+</head>
+<body>
+
+<div class="container cont" style="margin-bottom:50px;">
+
+	
+			<h2>Place <b>Order</b></h2>
+
+
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
 <!------ Include the above in your HEAD tag ---------->
 
 <div class="container wrapper">
@@ -54,48 +71,51 @@ if ($resultBrand->num_rows > 0) {
                 <div class="row">
                     <p></p>
                 </div>
-                <div class="row">
-                    
-                </div>
+               
                 <div class="row">
                     <p></p>
                 </div>
                 </div>
             </div>    
             <div class="row cart-body">
-                <form class="form-horizontal" method="post" action="">
+                
+                    <?php
+                echo '<form class="form-horizontal" method="post" action="">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-push-6 col-sm-push-6">
                     <!--REVIEW ORDER-->
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            Review Order <div class="pull-right"><small><a class="afix-1" href="#">Edit Cart</a></small></div>
+                            Review Order <div class="pull-right"><small><a class="afix-1" href="ViewCart.php">Edit Cart</a></small></div>
                         </div>
-                       
-                        <div class="panel-body">
-                            <div class="form-group">
+                        <div class="panel-body">';
+                            
+                    foreach($cart as $item)
+                    {
+                            echo '<div class="form-group">
                                 <div class="col-sm-3 col-xs-3">
-                                    <img class="img-responsive" src="//c1.staticflickr.com/1/466/19681864394_c332ae87df_t.jpg" />
+                                    <img class="img-responsive" src="'.getProductImage($item['id'],$con).'" />
                                 </div>
                                 <div class="col-sm-6 col-xs-6">
-                                    <div class="col-xs-12">Product name</div>
-                                    <div class="col-xs-12"><small>Quantity:<span>1</span></small></div>
+                                    <div class="col-xs-12">'.$item['name'].'</div>
+                                    <div class="col-xs-12"><small>Quantity:<span>'.$item['qty'].'</span></small></div>
                                 </div>
                                 <div class="col-sm-3 col-xs-3 text-right">
-                                    <h6><span>$</span>25.00</h6>
+                                    <h6>'.toMoney($item['subtotal']).'</h6>
                                 </div>
                             </div>
+                        
+                            <div class="form-group"><hr /></div>';
+                    }
+                     echo '       
                             <div class="form-group"><hr /></div>
-                           
                             <div class="form-group">
                                 <div class="col-xs-12">
                                     <strong>Order Total</strong>
-                                    <div class="pull-right"><span>$</span><span>150.00</span></div>
+                                    <div class="pull-right"><span></span><span>'.toMoney($jcart->gettotal()).'</span></div>
                                 </div>
                             </div>
                         </div>
-                        
-                        
-                    </div>
+                    </div>'?>
                     <!--REVIEW ORDER END-->
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-pull-6 col-sm-pull-6">
@@ -250,3 +270,8 @@ if ($resultBrand->num_rows > 0) {
         
             </div>
     </div>
+</div>
+
+</div>
+    <?php include_once('footer.php');  ?>
+</body>

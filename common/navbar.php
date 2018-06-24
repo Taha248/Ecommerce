@@ -2,6 +2,15 @@
 include_once('Variables.php');
 include_once('jcart/jcart/jcart.php');
 
+$cart = $jcart->get_contents();
+//echo $jcart->gettotal();
+foreach($cart as $item)
+{
+   // echo $item['id'];
+    //echo 'true';
+}
+
+
 ?>
 
 
@@ -58,7 +67,12 @@ include_once('jcart/jcart/jcart.php');
                     <li style="">
                     <div class="container cart-empty" style="">
                          
-    <div id="jcart"><?php $jcart->display_cart();?></div>
+    <div id="jcart">
+        <?php $jcart->display_cart();?>
+               
+        
+        
+                        </div>
                         </div>
                     </li>
                     

@@ -14,6 +14,11 @@ class Jcart {
 	private $prices    = array();
 	private $qtys      = array();
 	private $urls      = array();
+    private $Price      = array();
+    private $Quantity      = array();
+    private $Name      = array();
+    private $pID      = array();
+    
 	private $subtotal  = 0;
 	private $itemCount = 0;
 
@@ -115,7 +120,7 @@ class Jcart {
 	*
 	* @return boolean
 	*/
-	private function update_item($id, $qty) {
+	public function update_item($id, $qty) {
 
 		// If the quantity is zero, no futher validation is required
 		if ((int) $qty === 0) {
@@ -265,6 +270,9 @@ class Jcart {
 		}
 	}
 
+	public function getTotal() {
+    return $this->subtotal;
+    }
 	/**
 	* Process and display cart
 	*/
@@ -394,7 +402,15 @@ if(isset($_POST['jcartUpdate']))
 		the visitor first clicks checkout), then check for the hidden input
 		sent with Ajax request (set when visitor has javascript enabled and
 		updates an item quantity). */
-		$isCheckout = strpos(request_uri(), $checkout);
+        try{
+		@$isCheckout = strpos(request_uri(), $checkout);
+        
+}
+catch(Exception $e)
+{echo 'Message: ' .$e->getMessage();
+}
+        
+        
         if(isset($_REQUEST['jcartIsCheckout'])){
 		if ($isCheckout !== false || $_REQUEST['jcartIsCheckout'] == 'true') {
 			$isCheckout = true;
@@ -617,9 +633,30 @@ if(isset($src))
 			echo tab(3) . "<input type='$inputType' $src id='jcart-paypal-checkout' name='jcartPaypalCheckout' value='{$config['text']['checkoutPaypal']}' $disablePaypalCheckout />\n";
 		}
 
-		echo tab(2) . "</fieldset>\n";
+
 		echo tab(1) . "</form>\n\n";
-		
+			echo tab(2) . "</fieldset>\n
+                           <a href='./ViewCart.php'>  <button  style='margin-bottom: 5px;margin-top:10px;;display:inline;' class='button button--nina button--text-thick button--text-upper button--size-s btn-account' data-text='View Cart'>
+						            <span  class='ninaBtnOnHover'>V</span>
+                                    <span  class='ninaBtnOnHover'>i</span>
+                                    <span  class='ninaBtnOnHover'>e</span>
+                                    <span  class='ninaBtnOnHover'>w</span>  <span class='ninaBtnOnHover'>&nbsp;</span>
+                                    <span  class='ninaBtnOnHover'>C</span>
+                                    <span  class='ninaBtnOnHover'>a</span>
+                                    <span  class='ninaBtnOnHover'>r</span>
+                                    <span  class='ninaBtnOnHover'>t</span>
+                                  
+					       </button></a>
+                         <form action=''>
+                            <button type='submit' style='margin-bottom: 10px;margin-top:5px;display:inline;' class='button button--nina button--text-thick button--text-upper button--size-s btn-account' data-text='Order Now'>
+						            <span  class='ninaBtnOnHover'>O</span>
+                                    <span  class='ninaBtnOnHover'>r</span>
+                                    <span  class='ninaBtnOnHover'>d</span>
+                                    <span  class='ninaBtnOnHover'>e</span> 
+                                    <span  class='ninaBtnOnHover'>r</span>
+					       </button>
+                        </form>
+        ";
 		echo tab(1) . "<div id='jcart-tooltip'></div>\n";
 	}
 }
@@ -636,8 +673,11 @@ if( isset($_SESSION['postdata'])) {
   unset($_SESSION['postdata']);
 }
 
-// Initialize jcart after session start
+if(isset( $_SESSION['jcart']))
+    
 $jcart = $_SESSION['jcart'];
+// Initialize jcart after session start
+
 if(!is_object($jcart)) {
 	$jcart = $_SESSION['jcart'] = new Jcart();
 }

@@ -1,4 +1,3 @@
-
    <script src="common/js/jquery.min.js"></script>
    <link rel="stylesheet"  href="common/css/bootstrap.min.css"/>
    <script src="common/js/bootstrap.min.js"></script>
@@ -6,6 +5,8 @@
    <link href="common/fonts/Hind.css" rel="stylesheet">
    <link href="common/Cinzel.css">
    <link rel="shortcut icon" href="../favicon.ico">
+<link href="css/bootstrap.icon-large.min.css" rel="stylesheet">
+
    <link rel="stylesheet" type="text/css" href="common/fonts/vicons-font.css" />
    <link rel="stylesheet" type="text/css" href="common/fonts/Overpass.css" />
    <link rel="stylesheet" type="text/css" href="css/buttons.css" />

@@ -102,14 +102,12 @@ if ($resultProduct->num_rows > 0) {
     </style>
     </head>
 <body style="background-color:#e9ebee;width:100%;">
-    <?php include_once('navbar.php'); ?>
 <style>
      .btn.focus, .btn:focus, .btn:hover{
          color:white;transition: all .4s ease;
 -webkit-transition: all .4s ease;
      }</style>
 <!------ Include the above in your HEAD tag ---------->
-
 <div class="container cardcont" style="    padding-right: 0px;
     padding-left: 6px;
     margin-right: auto;
