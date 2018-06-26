@@ -4,12 +4,31 @@ include_once('libraries.php');
 include_once('Variables.php');
 include_once('common/connection.php');
 
+ini_set('max_execution_time', 60);
+@session_start();
+$serverIMGURI = 'http://'.$_SERVER['HTTP_HOST'].'/AmCacti/';
+defined('APP_IMAGES') ||  define('APP_IMAGES', $serverIMGURI.'images/');
+defined('APP_IMAGES_DIR') ||  define('APP_IMAGES_DIR', $_SERVER['DOCUMENT_ROOT'].'/AmCacti/'.'images/');
 
+        if($_SERVER['HTTP_HOST']=='localhost'){
+            $mailhost = "192.168.1.200";	// SMTP servers
+    		$mailsmtpauth=true;
+    		$username = "umair@mail2000.com"; // SMTP username
+    		$userpass = "zaman21"; 			 // SMTP password
+    		$mailfrom = "salman@mail2000.com";
+    		$mailadd = "umair@mail2000.com";
+        }else{
+            $mailhost = "mail.swisssuppliersgmbh.com";	// SMTP servers
+    		$mailsmtpauth=true;
+    		$username = "mail@swisssuppliersgmbh.com"; // SMTP username
+    		$userpass = "burney123"; 			 // SMTP password
+    		$mailfrom = "info@swisssuppliersgmbh.com";
+    		$mailadd = "info@swisssuppliersgmbh.com";
+        }
+ 
 $cart = $jcart->get_contents();
  $sql = "SELECT * FROM BankInfo";
 $result = $con->query($sql);
-
-
 if ($result->num_rows > 0) {
     // output data of each row
     $i=0;
@@ -27,6 +46,105 @@ if ($result->num_rows > 0) {
     echo "Product Brand NOT FOUND";
 }
 
+$Msg='
+            <div class="row cart-body">
+                <form class="form-horizontal" method="post" action=""><div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-push-6 col-sm-push-6">
+                    <!--REVIEW ORDER-->
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Review Order <div class="pull-right"><small><a class="afix-1" href="ViewCart.php">Edit Cart</a></small></div>
+                        </div>
+                        <div class="panel-body">';
+     foreach($cart as $item)
+                    {
+                            $Msg.= '<div class="form-group">
+                                <div class="col-sm-3 col-xs-3">
+                                    <img class="img-responsive" src="'.getProductImage($item['id'],$con).'" />
+                                </div>
+                                <div class="col-sm-6 col-xs-6">
+                                    <div class="col-xs-12">'.$item['name'].'</div>
+                                    <div class="col-xs-12"><small>Quantity:<span>'.$item['qty'].'</span></small></div>
+                                </div>
+                                <div class="col-sm-3 col-xs-3 text-right">
+                                    <h6>'.toMoney($item['subtotal']).'</h6>
+                                </div>
+                            </div>
+                        
+                            <div class="form-group"><hr /></div>';
+                    }
+$Msg.='<div class="form-group"><hr /></div>
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <strong>Order Total</strong>
+                                    <div class="pull-right"><span></span><span>'.toMoney($jcart->gettotal()).'</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>';
+
+
+$Msg='    <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <h4>Shipping Information</h4>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12"><strong>Country:</strong></div>
+                                <div class="col-md-12">
+                                <p> </p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-6 col-xs-12">
+                                    <strong>First Name:</strong>
+                                    <input type="text" name="first_name" class="form-control" value="" />
+                                </div>
+                                <div class="span1"></div>
+                                <div class="col-md-6 col-xs-12">
+                                    <strong>Last Name:</strong>
+                                    <input type="text" name="last_name" class="form-control" value="" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12"><strong>Address:</strong></div>
+                                <div class="col-md-12">
+                                    <input type="text" name="address" class="form-control" value="" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12"><strong>City:</strong></div>
+                                <div class="col-md-12">
+                                    <input type="text" name="city" class="form-control" value="" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12"><strong>State:</strong></div>
+                                <div class="col-md-12">
+                                    <input type="text" name="state" class="form-control" value="" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12"><strong>Zip / Postal Code:</strong></div>
+                                <div class="col-md-12">
+                                    <input type="text" name="zip_code" class="form-control" value="" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12"><strong>Phone Number:</strong></div>
+                                <div class="col-md-12"><input type="text" name="phone_number" class="form-control" value="" /></div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12"><strong>Email Address:</strong></div>
+                                <div class="col-md-12"><input type="text" name="email_address" class="form-control" value="" /></div>
+                            </div>
+                        </div>'
+
+
+
+
+
+
 
 
 
@@ -40,14 +158,14 @@ $id =InsertUserDetails($_POST['first_name'],$_POST['last_name'],$_POST['country'
                       
                     InsertOrder($item['id'],$item['qty'],$id);
                     }
-$to      = 'nobody@example.com';
-$subject = 'the subject';
-$message = 'hello';
-$headers = 'From: webmaster@example.com' . "\r\n" .
-    'Reply-To: webmaster@example.com' . "\r\n" .
-    'X-Mailer: PHP/' . phpversion();
+   if( SendEmail($Msg,$_POST['email_address'])){
+       echo 'TRUE';
+       
+   }
+    else{
+        echo 'false';
+    }
 
-mail($to, $subject, $message, $headers);
 }
 
 
@@ -127,7 +245,49 @@ if ($resultBrand->num_rows > 0) {
 }
     return array($PRODUCT_COMPANY_ID,$PRODUCT_DETAILS_BRAND);
 }
+require_once('common/mail-connect.php');
 
+function SendEmail($message,$email){
+global $mailhost;
+global $mailsmtpauth;
+global $username;
+global $userpass;
+global $mailfrom;
+global $mailadd;
+    $sess=1;
+$filepath="";
+$firstname="abc";
+$lastname="abc";
+$phone="003";
+$address1="abc";
+$address2="abc";
+$city="abc";
+$zip="abc";
+
+    ini_set("include_path", $filepath);
+	require("assets/class.phpmailer.php");
+	$mail = new PHPMailer();
+	$mail->IsSMTP();
+	$mail->Host     = $mailhost; 						// SMTP server
+	$mail->SMTPAuth = $mailsmtpauth;    				 // turn on SMTP authentication
+	$mail->Username = $username;					 // SMTP username
+	$mail->Password = $userpass; 					 // SMTP password
+	$mail->From     = $mailfrom;
+	$mail->FromName = "American Cacti";
+	$mail->AddAddress($mailadd);
+	$mail->AddCC($email);
+    $mail->WordWrap = 50;
+	$mail->IsHTML(true);
+	$mail->CharSet = "utf-8";
+	$mail->Subject  = "Checkout";
+	$mail->Body     =  $message;	
+	if($mail->Send()){
+	@	header("HTTP/1.1 200");
+	}else{
+	@	header("HTTP/1.1 500");
+	}
+    return true;
+}
 ?>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
