@@ -27,7 +27,7 @@ $zip="abc";
 	$mail->Username = $username;					 // SMTP username
 	$mail->Password = $userpass; 					 // SMTP password
 	$mail->From     = $mailfrom;
-	$mail->FromName = "American Cacti";
+	$mail->FromName = "B2BPakistan";
 	$mail->AddAddress($mailadd);
 	$mail->AddCC($email);
     $mail->WordWrap = 50;

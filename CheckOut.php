@@ -11,12 +11,13 @@ defined('APP_IMAGES') ||  define('APP_IMAGES', $serverIMGURI.'images/');
 defined('APP_IMAGES_DIR') ||  define('APP_IMAGES_DIR', $_SERVER['DOCUMENT_ROOT'].'/AmCacti/'.'images/');
 
         if($_SERVER['HTTP_HOST']=='localhost'){
-            $mailhost = "192.168.1.200";	// SMTP servers
+          
+            $mailhost = "virtualbreez.com";	// SMTP servers
     		$mailsmtpauth=true;
-    		$username = "umair@mail2000.com"; // SMTP username
-    		$userpass = "zaman21"; 			 // SMTP password
-    		$mailfrom = "salman@mail2000.com";
-    		$mailadd = "umair@mail2000.com";
+    		$username = "Tahatauquir@virtualbreez.com"; // SMTP username
+    		$userpass = "Cdn0h55_"; 			 // SMTP password
+    		$mailfrom = "Tahatauquir@virtualbreez.com";
+    		$mailadd = "Tahatauquir@virtualbreez.com";
         }else{
             $mailhost = "mail.swisssuppliersgmbh.com";	// SMTP servers
     		$mailsmtpauth=true;
@@ -42,110 +43,148 @@ if ($result->num_rows > 0) {
         $SWIFT_CODE=$row['SwiftCode'];
         
     }
-} else {
+} 
+else {
     echo "Product Brand NOT FOUND";
 }
 
+
+$sql = "SELECT * FROM userdetails where UserDetailID=1;";
+
+$result = $con->query($sql);
+//$resultSize = $con->query($sqlSize);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        $Firstname =$row["FirstName"];
+        $LastName=$row["LastName"];
+        $Address=$row["Address"];
+        $Country=$row["Country"];
+        $City=$row["City"];
+        $State=$row["State"];
+        $ZipCode=$row["ZipCode"];
+        $Contact=$row["Contact"];
+        $Email=$row["emailAddress"];
+    }
+} else {
+    echo "Product Details NOT FOUND";
+}
+
+
+
+$sql = "SELECT * FROM userdetails where UserDetailID=1;";
+
+$result = $con->query($sql);
+//$resultSize = $con->query($sqlSize);
+
+if ($result->num_rows > 0) {
+    // output data of each row
+    while($row = $result->fetch_assoc()) {
+        $Firstname =$row["FirstName"];
+        $LastName=$row["LastName"];
+        $Address=$row["Address"];
+        $Country=$row["Country"];
+        $City=$row["City"];
+        $State=$row["State"];
+        $ZipCode=$row["ZipCode"];
+        $Contact=$row["Contact"];
+        $Email=$row["emailAddress"];
+    }
+} else {
+    echo "Product Details NOT FOUND";
+}
+
+
+
+$cart= $jcart->get_contents();
 $Msg='
-            <div class="row cart-body">
-                <form class="form-horizontal" method="post" action=""><div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-push-6 col-sm-push-6">
-                    <!--REVIEW ORDER-->
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            Review Order <div class="pull-right"><small><a class="afix-1" href="ViewCart.php">Edit Cart</a></small></div>
-                        </div>
-                        <div class="panel-body">';
+<h2 style="color:black;text-align:center;	color: #000;font-size: 26px;font-weight: 300;text-align: center;text-transform: uppercase;position: relative;
+	margin: 30px 0 80px;"> Order <b style="
+	color: #ffc000;">Details</b></h2>
+<table align="center" >
+<tr>
+<th  style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;background-color: #4CAF50;color: white;"> </th>
+<th  style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;background-color: #4CAF50;color: white;"><strong>Name</strong></td>
+<th  style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;background-color: #4CAF50;color: white;"><strong>Quantity</strong></td>
+<th  style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;background-color: #4CAF50;color: white;"><strong>Price</strong></td>
+</tr>
+';
      foreach($cart as $item)
                     {
-                            $Msg.= '<div class="form-group">
-                                <div class="col-sm-3 col-xs-3">
-                                    <img class="img-responsive" src="'.getProductImage($item['id'],$con).'" />
-                                </div>
-                                <div class="col-sm-6 col-xs-6">
-                                    <div class="col-xs-12">'.$item['name'].'</div>
-                                    <div class="col-xs-12"><small>Quantity:<span>'.$item['qty'].'</span></small></div>
-                                </div>
-                                <div class="col-sm-3 col-xs-3 text-right">
-                                    <h6>'.toMoney($item['subtotal']).'</h6>
-                                </div>
-                            </div>
+                            
+                            
+                            $Msg.= '<tr>
+                                  <td> <img width="100px" height="100px"  style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;" src="http://virtualbreez.com/'.getProductImage($item['id'],$con).'" /></td>
+                                    <td   style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;">'.$item['name'].'</td>
+                                    <td  style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;">'.$item['qty'].'</td>
+                                    <td  style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;">'.toMoney($item['price']).'</td>
+                              
                         
-                            <div class="form-group"><hr /></div>';
+                            </tr>';
                     }
-$Msg.='<div class="form-group"><hr /></div>
-                            <div class="form-group">
-                                <div class="col-xs-12">
-                                    <strong>Order Total</strong>
-                                    <div class="pull-right"><span></span><span>'.toMoney($jcart->gettotal()).'</span></div>
-                                </div>
-                            </div>
+
+                        $Msg.=' <tr> <td><strong>Total</strong></td>
+                          <td  style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;"></td>
+                          <td  style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;"></td>
+                          <td   style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;color:green;"><strong>'.toMoney($item['subtotal']).'</strong></td><tr>';
+
+
+$Msg.='</table><h2 style="color:black;text-align:center;	color: #000;font-size: 26px;font-weight: 300;text-align: center;text-transform: uppercase;position: relative;
+	margin: 30px 0 80px;"> User <b style="
+	color: #ffc000;">Details</b></h2>';
+$Msg.='<div style="width:100%;"><table align="center" style="width:50%;" >
+';
+                            $Msg.= '<tr>
+                <th  style="padding: 15px;text-align: center;border-bottom: 1px solid #ddd;background-color: #4CAF50;color: white;"><strong>First Name</strong></th>
+                                 <td style="padding: 15px;text-align: center;border-bottom: 1px solid #ddd;"">'.$Firstname.'</td>
+                                    
+</tr>
+<tr>
+                <th style="padding: 15px;text-align: center;border-bottom: 1px solid #ddd;background-color: #4CAF50;color: white;"><strong>Last Name</strong></th>
+                                    <td style="padding: 15px;text-align: center;border-bottom: 1px solid #ddd;">'.$LastName.'</td>                 
+</tr> 
+<tr>
+                <th style="text-align:center;background-color: #4CAF50;color: white;"><strong>Address</strong></th>
+                                    <td style="padding: 15px;text-align: center;border-bottom: 1px solid #ddd;">'.$Address.'</td>
+                        </tr>
+                                    
+<tr>
+                <th style="text-align:center;   background-color: #4CAF50;color: white;"><strong>Country</strong></th>
+                                    <td style="padding: 15px;text-align: center;border-bottom: 1px solid #ddd;">'.$Country.'</td>
+                        </tr>
+                                    
+<tr>
+                <th style="text-align:center;   background-color: #4CAF50;
+    color: white;"><strong>City</strong></th>
+                                    <td style="padding: 15px;text-align: center;border-bottom: 1px solid #ddd;">'.$City.'</td>
+                        </tr>
+                                    
+<tr>
+                <th style="text-align:center;background-color: #4CAF50;color: white;"><strong>State</strong></th>
+                                    <td style="padding: 15px;text-align: center;border-bottom: 1px solid #ddd;">'.$State.'</td>
+                        </tr>
+                                    
+<tr>
+                <th style="padding: 15px;text-align: center;border-bottom: 1px solid #ddd;background-color: #4CAF50;color: white;"><strong>ZipCode</strong></th>
+                                    <td style="padding: 15px;text-align: center;border-bottom: 1px solid #ddd;">'.$ZipCode.'</td>
+                        </tr>
+                                    
+<tr>
+                <th style="padding: 15px;text-align: center;border-bottom: 1px solid #ddd;background-color: #4CAF50;color: white;"><strong>Contact</strong></th>
+                                    <td style="padding: 15px;text-align: center;border-bottom: 1px solid #ddd;">'.$Contact.'</td>
+                                    
+                        </tr>
+<tr>
+                <th style="padding: 15px;text-align: center;border-bottom: 1px solid #ddd;background-color: #4CAF50;color: white;"><strong>Email</strong></th>
+                                    <td style="padding: 15px;text-align: center;border-bottom: 1px solid #ddd;">'.$Email.'</td>
+                        </tr>
                         </div>
-                    </div>';
-
-
-$Msg='    <div class="panel-body">
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <h4>Shipping Information</h4>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12"><strong>Country:</strong></div>
-                                <div class="col-md-12">
-                                <p> </p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-6 col-xs-12">
-                                    <strong>First Name:</strong>
-                                    <input type="text" name="first_name" class="form-control" value="" />
-                                </div>
-                                <div class="span1"></div>
-                                <div class="col-md-6 col-xs-12">
-                                    <strong>Last Name:</strong>
-                                    <input type="text" name="last_name" class="form-control" value="" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12"><strong>Address:</strong></div>
-                                <div class="col-md-12">
-                                    <input type="text" name="address" class="form-control" value="" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12"><strong>City:</strong></div>
-                                <div class="col-md-12">
-                                    <input type="text" name="city" class="form-control" value="" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12"><strong>State:</strong></div>
-                                <div class="col-md-12">
-                                    <input type="text" name="state" class="form-control" value="" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12"><strong>Zip / Postal Code:</strong></div>
-                                <div class="col-md-12">
-                                    <input type="text" name="zip_code" class="form-control" value="" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12"><strong>Phone Number:</strong></div>
-                                <div class="col-md-12"><input type="text" name="phone_number" class="form-control" value="" /></div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12"><strong>Email Address:</strong></div>
-                                <div class="col-md-12"><input type="text" name="email_address" class="form-control" value="" /></div>
-                            </div>
-                        </div>'
+';
 
 
 
-
-
-
-
+$Msg.='</table>';
 
 
 if (isset($_POST['first_name'])) {
@@ -256,13 +295,6 @@ global $mailfrom;
 global $mailadd;
     $sess=1;
 $filepath="";
-$firstname="abc";
-$lastname="abc";
-$phone="003";
-$address1="abc";
-$address2="abc";
-$city="abc";
-$zip="abc";
 
     ini_set("include_path", $filepath);
 	require("assets/class.phpmailer.php");
@@ -273,14 +305,14 @@ $zip="abc";
 	$mail->Username = $username;					 // SMTP username
 	$mail->Password = $userpass; 					 // SMTP password
 	$mail->From     = $mailfrom;
-	$mail->FromName = "American Cacti";
+	$mail->FromName = "";
 	$mail->AddAddress($mailadd);
 	$mail->AddCC($email);
     $mail->WordWrap = 50;
 	$mail->IsHTML(true);
 	$mail->CharSet = "utf-8";
-	$mail->Subject  = "Checkout";
-	$mail->Body     =  $message;	
+	$mail->Subject  = "Your Order is Successfully Placed!";
+	$mail->Body     =  $message;
 	if($mail->Send()){
 	@	header("HTTP/1.1 200");
 	}else{
@@ -295,6 +327,12 @@ $zip="abc";
     include_once('css/index.css');
 
     </style>
+<link href="https://fonts.googleapis.com/css?family=Poppins:500" rel="stylesheet">
+
+<style>
+tr:hover {background-color: #f5f5f5;}
+
+</style>
 </head>
 <body>
 
@@ -321,6 +359,7 @@ $zip="abc";
                 </div>
                 </div>
             </div>    
+    </div>
             <div class="row cart-body">
                 <form class="form-horizontal" method="post" action="">
                     <?php
@@ -431,8 +470,44 @@ $zip="abc";
                         <div class="panel-heading"><span><i class="glyphicon glyphicon-lock"></i></span> Secure Payment</div>
                         <div class="panel-body">
                             <div class="form-group">
+                                <div class="row">
+        <div class="col-lg-12">
+            <table class="table" id="table">
+                <thead>
+                    <tr>
+                        <th>First column</th>
+                        <td>jQuery</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>First column</th>
+                        <td>jQuery</td>
+                    </tr>
+                    <tr>
+                        <th>First column</th>
+                        <td>Ipsum</td>
+                    </tr>
+                    <tr>
+                        <th>First column</th>
+                        <td>More</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+        </div>
+    </div>
+<style>
+   th{
+        text-align: center;
+    }
+    td{
+        text-align: left;
+    }
+}
+
+</style>
                                 <div class="col-md-12"><strong>Account Title :</strong></div>
-                                <div class="col-md-12">
                                  <p> <?php echo $ACCOUNT_TITLE; ?></p>
                                 </div>
                             </div>
@@ -466,11 +541,9 @@ $zip="abc";
                         </div>
                     </div>
                     <!--CREDIT CART PAYMENT END-->
-                </div>
                 </form>
             </div>
-    </div>
-</div>
 
     <?php include_once('footer.php');  ?>
+    </div>
 </body>
