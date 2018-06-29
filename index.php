@@ -4,6 +4,7 @@
 include_once('libraries.php');
 include_once('Variables.php');
 
+   include_once('common/navbar.php'); 
 
 
 ?>
@@ -46,13 +47,11 @@ $('.btn-cart').click(function () {
 <style><?php include('category-carousel.css'); ?></style>
 <style><?php include_once('product-carousel.css'); ?></style>
 <style><?php include_once('footer.css'); ?></style>
-    <style>
-     
-    </style>
     
     
     </head>
 <body style="background-color:#e9ebee;">
+ 
     <?php include_once('carousel-top.php'); ?>
     <?php include_once('category-carousel.php'); ?>
     <?php include_once('product-carousel.php'); ?>

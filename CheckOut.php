@@ -1,9 +1,10 @@
+
 <?php
 
-include_once('libraries.php');
 include_once('Variables.php');
 include_once('common/connection.php');
-
+include_once('libraries.php');
+ include_once('common/navbar.php'); 
 ini_set('max_execution_time', 60);
 @session_start();
 $serverIMGURI = 'http://'.$_SERVER['HTTP_HOST'].'/AmCacti/';
@@ -26,6 +27,7 @@ defined('APP_IMAGES_DIR') ||  define('APP_IMAGES_DIR', $_SERVER['DOCUMENT_ROOT']
     		$mailfrom = "info@swisssuppliersgmbh.com";
     		$mailadd = "info@swisssuppliersgmbh.com";
         }
+ 
  
 $cart = $jcart->get_contents();
  $sql = "SELECT * FROM BankInfo";
@@ -131,7 +133,7 @@ $Msg='
 
 
 $Msg.='</table><h2 style="color:black;text-align:center;	color: #000;font-size: 26px;font-weight: 300;text-align: center;text-transform: uppercase;position: relative;
-	margin: 30px 0 80px;"> User <b style="
+	margin: 30px 0 80px;"> Your <b style="
 	color: #ffc000;">Details</b></h2>';
 $Msg.='<div style="width:100%;"><table align="center" style="width:50%;" >
 ';
@@ -333,6 +335,7 @@ $filepath="";
 tr:hover {background-color: #f5f5f5;}
 
 </style>
+    
 </head>
 <body>
 
@@ -360,8 +363,8 @@ tr:hover {background-color: #f5f5f5;}
                 </div>
             </div>    
     </div>
-            <div class="row cart-body">
                 <form class="form-horizontal" method="post" action="">
+            <div class="row cart-body">
                     <?php
                 echo '
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-push-6 col-sm-push-6">
@@ -400,9 +403,7 @@ tr:hover {background-color: #f5f5f5;}
                         </div>
                     </div>'?>
                     <!--REVIEW ORDER END-->
-                </form>
                 </div>
-                <form class="form-horizontal" method="post" action="">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-pull-6 col-sm-pull-6">
                     <!--SHIPPING METHOD-->
                     <div class="panel panel-info">
@@ -475,23 +476,37 @@ tr:hover {background-color: #f5f5f5;}
             <table class="table" id="table">
                 <thead>
                     <tr>
-                        <th>First column</th>
-                        <td>jQuery</td>
+                        <th>Account Title </th>
+                        <td><?php echo $ACCOUNT_TITLE; ?></td>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th>First column</th>
-                        <td>jQuery</td>
+                        <th>Branch Name </th>
+                        <td>   <?php echo $BANKNAME; ?></td>
+                    </tr>
+                    
+                    <tr>
+                        <th>Account#</th>
+                        <td> <?php echo $ACCOUNT_NUMBER; ?></td>
                     </tr>
                     <tr>
-                        <th>First column</th>
-                        <td>Ipsum</td>
+                        <th>Branch Code</th>
+                        <td>      <?php echo $BRANCHCODE; ?></td>
                     </tr>
                     <tr>
-                        <th>First column</th>
-                        <td>More</td>
+                        <th>Branch City</th>
+                        <td> <?php echo $BANKCITY; ?></td>
                     </tr>
+                    
+                    <tr>
+                        <th>Swift Code</th>
+                        <td><?php echo $SWIFT_CODE; ?></td>
+                    </tr>
+                  
+                     
+                    
+                    
                 </tbody>
             </table>
             <hr>
@@ -504,46 +519,25 @@ tr:hover {background-color: #f5f5f5;}
     td{
         text-align: left;
     }
-}
+
 
 </style>
-                                <div class="col-md-12"><strong>Account Title :</strong></div>
-                                 <p> <?php echo $ACCOUNT_TITLE; ?></p>
-                                </div>
-                            </div>
-        
-                            <div class="form-group">
-                                <div class="col-md-12"><strong>Branch Name:    </strong> 
-                               <?php echo $BANKNAME; ?></div>
-                               
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12"><strong>Branch Code: </strong>
-                               <?php echo $BRANCHCODE; ?></div>
-                            </div>
-                              <div class="form-group">
-                                <div class="col-md-12"><strong>Account#:</strong> <?php echo $ACCOUNT_NUMBER; ?></div>
-                            </div>
-                              <div class="form-group">
-                                <div class="col-md-12"><strong>Branch City:</strong>
-                            <?php echo $BANKCITY; ?></div>
-                            </div>
-                              <div class="form-group">
-                                <div class="col-md-12"><strong>Swift Code:</strong><?php echo $SWIFT_CODE; ?></div>
-                               <p> </p>
-                            </div>
                             
-                            <div class="form-group">
-                                <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <button type="submit" class="btn btn-primary btn-submit-fix">Place Order</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!--CREDIT CART PAYMENT END-->
+                    
+    <div style="width:100%;text-align:center;">
+                                  <button style="width:140px;height:45px;" type="submit" class="btn btn-primary btn-submit-fix btn-order">Place Order</button>
+    </div>
                 </form>
             </div>
 
-    <?php include_once('footer.php');  ?>
     </div>
+    </div>
+    <?php include_once('footer.php');  ?>
+<script>
+</script>
 </body>
