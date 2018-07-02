@@ -8,7 +8,7 @@
    <?php 
    include_once('common/Ratings.php');
    include_once('common/CurrencyFormat.php');
-   require_once('common/connection.php');?>
+   require_once('common/pdo-connection.php');?>
    <script src="common/js/bootstrap.min.js"></script>
    <link href="common/fonts/comfortaa.css" rel="stylesheet">
    <link href="common/fonts/Hind.css" rel="stylesheet">

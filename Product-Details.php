@@ -2,7 +2,6 @@
 <?php
 
 include_once('libraries.php');
-
 include_once('Variables.php');
    include_once('common/navbar.php'); 
 
@@ -19,23 +18,22 @@ global $PRODUCT_DETAILS_DELIVERY;
 global $PRODUCT_DETAILS_COLOR;
 global $PRODUCT_DETAILS_SIZE;
 global $PRODUCT_IMG_URL;
+global $conn;
+    global $DB_NAME;
 
   if(isset($_GET["productID"]))
     {
         $productID= $_GET["productID"];
     }
 
-$sql = "SELECT * FROM productdetails p WHERE p.productID='".$productID."' ";
-$sqlImg = "SELECT * FROM productImages p WHERE p.productID='".$productID."' ";
-$sqlSize = "SELECT * FROM productsize p WHERE p.productID='".$productID."' ";
 
-$result = $con->query($sql);
-$resultImg = $con->query($sqlImg);
-$resultSize = $con->query($sqlSize);
+     try{
+ 
+    $sql = "SELECT * FROM ".$DB_NAME.".productdetails p WHERE p.productID='".$productID."' ";
+    $result=$conn->query($sql)->fetchAll(PDO::FETCH_BOTH);
 
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
+    foreach($result as $row)
+    {
        $PRODUCT_DETAILS_HEADING =$row["productName"];
        $PRODUCT_DETAILS_PRICE = $row["productPrice"];  
        $PRODUCT_DETAILS_ACTUAL_PRICE = $row["productActualPrice"];   
@@ -45,48 +43,87 @@ if ($result->num_rows > 0) {
        $PRODUCT_DETAILS_DELIVERY =$row["productDelivery"];
        $PRODUCT_DETAILS_COLOR = $row["productColors"]; 
        $PRODUCT_DETAILS_RATING = $row["productRating"];
+        
     }
-} else {
-    echo "Product Details NOT FOUND";
-}
-
-$sqlBrand = "SELECT * FROM productBrand where companyID=".$PRODUCT_DETAILS_BRANDID;
-
-$resultBrand = $con->query($sqlBrand);
-
+    
+       }
+    catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
+    }
 
 
 
-if ($resultImg->num_rows > 0) {
-    // output data of each row
-    $i=0;
-    while($row = $resultImg->fetch_assoc()) {
+
+
+     try{
+ $sqlImg = "SELECT * FROM ".$DB_NAME.".productImages p WHERE p.productID='".$productID."' ";
+
+    $result=$conn->query($sqlImg)->fetchAll(PDO::FETCH_BOTH);
+$i=0;
+    foreach($result as $row)
+    {
+      
        $PRODUCT_IMG_URL[$i] =$row["Img_URL"];
         $i++;
+        
     }
-} else {
-    echo "Product Image NOT FOUND";
-}
-if ($resultSize->num_rows > 0) {
-    // output data of each row
-    $i=0;
-    while($row = $resultSize->fetch_assoc()) {
+    
+       }
+    catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
+    }
+
+
+
+
+
+
+
+     try{
+         $sqlSize = "SELECT * FROM ".$DB_NAME.".productsize p WHERE p.productID='".$productID."' ";
+
+
+    $result=$conn->query($sqlSize)->fetchAll(PDO::FETCH_BOTH);
+$i=0;
+    foreach($result as $row)
+    {
        $PRODUCT_DETAILS_SIZE[$i] =$row["productSize"];
         $i++;
     }
-} else {
-    echo "Product Image NOT FOUND";
-}
-if ($resultBrand->num_rows > 0) {
-    // output data of each row
-    $i=0;
-    while($row = $resultBrand->fetch_assoc()) {
-       $PRODUCT_DETAILS_BRAND=$row["companyName"];
-        
+    
+       }
+    catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
     }
-} else {
-    echo "Product Brand NOT FOUND";
-}
+
+
+
+     try{
+         $sqlBrand = "SELECT * FROM ".$DB_NAME.".productBrand where companyID=".$PRODUCT_DETAILS_BRANDID;
+    $result=$conn->query($sqlBrand)->fetchAll(PDO::FETCH_BOTH);
+    foreach($result as $row)
+    {
+       $PRODUCT_DETAILS_BRAND=$row["companyName"];
+    }
+    
+       }
+    catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 ?>

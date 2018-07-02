@@ -8,25 +8,38 @@
       <div class="carousel slide multi-item-carousel x" id="brand-Carousel">
         <div class="carousel-inner">
                   <?php
+            global $DB_NAME;
+            global $conn;
             
-            $sql = "SELECT * FROM productBrand";
-            $result = $con->query($sql);
-            
-if ($result->num_rows > 0) {
-    // output data of each row
+     try{
+
+         $sql = "SELECT * FROM ".$DB_NAME.".productBrand ";
+
+  $result=$conn->query($sql)->fetchAll(PDO::FETCH_BOTH);
     $i=0;
-    while($row = $result->fetch_assoc()) {
-        
+
+    foreach($result as $row)
+    {
+  
         
         $BrandImgURL[$i]=$row["companyImg"];
-    $i++;
+        $i++;
+    }
+    
+       }
+    catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
     }
 
-}
+
             
-else {
-    echo "Product Details NOT FOUND";
-}
+            
+            
+            
+            
+            
+            
             
             
             

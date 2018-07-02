@@ -1,5 +1,5 @@
 <?php
-require_once('common/connection.php');
+require_once('common/pdo-connection.php');
 $val[0] = "Phones & Tablets";
 $val[1] = "Men's Fashion";
 $val[2] = "Women Fashion";
@@ -47,16 +47,21 @@ global $R_productDetails;
 global $R_productActualPrice;
 global $R_productImg;
 
-$sql = "SELECT * FROM productdetails ";
-$sqlImg = "SELECT * FROM productdetails p , productimages i where p.productID = i.productID";
-$result = $con->query($sql);
-$resultImg = $con->query($sqlImg);
 
-if ($result->num_rows > 0) {
-    // output data of each row
+
+
+     try{
+ 
+    global $DB_NAME;
+         $sql = "SELECT * FROM ".$DB_NAME.".productdetails ";
+
+  $result=$conn->query($sql)->fetchAll(PDO::FETCH_BOTH);
     $i=0;
-    while($row = $result->fetch_assoc()) {
-        $productID[$i] =$row["productID"];
+
+    foreach($result as $row)
+    {
+        
+       $productID[$i] =$row["productID"];
         $R_productName[$i]=$row["productName"];
         $R_productDetails[$i]=$row["productDescription"];
         $R_productRating[$i]=$row["productRating"];
@@ -64,16 +69,34 @@ if ($result->num_rows > 0) {
         $R_productPrice[$i]=$row["productPrice"];
         $i++;
     }
-} else {
-    echo "0 results";
-}
+    
+       }
+    catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
+    }
 
-if ($resultImg->num_rows > 0) {
-    // output data of each row
+
+
+
+
+
+
+
+
+     try{
+ 
+    global $DB_NAME;
+         $sqlImg = "SELECT * FROM ".$DB_NAME.".productdetails p , ".$DB_NAME.".productimages i where p.productID = i.productID";
+
+
+  $result=$conn->query($sqlImg)->fetchAll(PDO::FETCH_BOTH);
     $i=0;
+
     $PREV_productID=0;
-    while($row = $resultImg->fetch_assoc()) {
-        if($row["productID"]!=$PREV_productID)
+    foreach($result as $row)
+    {
+     if($row["productID"]!=$PREV_productID)
         {
           $R_productImg[$i]= $row["Img_URL"];
        //     echo '</br>'.$row["Img_URL"];
@@ -81,9 +104,11 @@ if ($resultImg->num_rows > 0) {
         }
         $PREV_productID=$row["productID"];
     }
-} else {
-    echo "0 results";
-}
+     }
+    catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
+    }
 
 
 

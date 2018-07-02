@@ -1,8 +1,8 @@
 
 <?php
 
+include_once('common/pdo-connection.php');
 include_once('Variables.php');
-include_once('common/connection.php');
 include_once('libraries.php');
  include_once('common/navbar.php'); 
 ini_set('max_execution_time', 60);
@@ -16,7 +16,7 @@ defined('APP_IMAGES_DIR') ||  define('APP_IMAGES_DIR', $_SERVER['DOCUMENT_ROOT']
             $mailhost = "virtualbreez.com";	// SMTP servers
     		$mailsmtpauth=true;
     		$username = "Tahatauquir@virtualbreez.com"; // SMTP username
-    		$userpass = "Cdn0h55_"; 			 // SMTP password
+    		$userpass = "Abc123"; 			 // SMTP password
     		$mailfrom = "Tahatauquir@virtualbreez.com";
     		$mailadd = "Tahatauquir@virtualbreez.com";
         }else{
@@ -27,15 +27,25 @@ defined('APP_IMAGES_DIR') ||  define('APP_IMAGES_DIR', $_SERVER['DOCUMENT_ROOT']
     		$mailfrom = "info@swisssuppliersgmbh.com";
     		$mailadd = "info@swisssuppliersgmbh.com";
         }
+        $Firstname ="";
+        $LastName="";
+        $Address="";
+        $Country="";
+        $City="";
+        $State="";
+        $ZipCode="";
+        $Contact="";
+        $Email="";
  
  
 $cart = $jcart->get_contents();
- $sql = "SELECT * FROM BankInfo";
-$result = $con->query($sql);
-if ($result->num_rows > 0) {
-    // output data of each row
-    $i=0;
-    while($row = $result->fetch_assoc()) {
+
+global $DB_NAME;
+ $sql = "SELECT * FROM ".$DB_NAME.".BankInfo";
+  $result=$conn->query($sql)->fetchAll(PDO::FETCH_BOTH);
+    foreach($result as $row)
+    {
+        
         $ACCOUNT_TITLE= $row['AccountTitle'];
         $BANKNAME=$row['BankName'];
         $BRANCHNAME=$row['BranchName'];
@@ -43,59 +53,7 @@ if ($result->num_rows > 0) {
         $ACCOUNT_NUMBER=$row['AccountNumber'];
         $BANKCITY=$row['BankCity'];
         $SWIFT_CODE=$row['SwiftCode'];
-        
     }
-} 
-else {
-    echo "Product Brand NOT FOUND";
-}
-
-
-$sql = "SELECT * FROM userdetails where UserDetailID=1;";
-
-$result = $con->query($sql);
-//$resultSize = $con->query($sqlSize);
-
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        $Firstname =$row["FirstName"];
-        $LastName=$row["LastName"];
-        $Address=$row["Address"];
-        $Country=$row["Country"];
-        $City=$row["City"];
-        $State=$row["State"];
-        $ZipCode=$row["ZipCode"];
-        $Contact=$row["Contact"];
-        $Email=$row["emailAddress"];
-    }
-} else {
-    echo "Product Details NOT FOUND";
-}
-
-
-
-$sql = "SELECT * FROM userdetails where UserDetailID=1;";
-
-$result = $con->query($sql);
-//$resultSize = $con->query($sqlSize);
-
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-        $Firstname =$row["FirstName"];
-        $LastName=$row["LastName"];
-        $Address=$row["Address"];
-        $Country=$row["Country"];
-        $City=$row["City"];
-        $State=$row["State"];
-        $ZipCode=$row["ZipCode"];
-        $Contact=$row["Contact"];
-        $Email=$row["emailAddress"];
-    }
-} else {
-    echo "Product Details NOT FOUND";
-}
 
 
 
@@ -117,7 +75,7 @@ $Msg='
                             
                             
                             $Msg.= '<tr>
-                                  <td> <img width="100px" height="100px"  style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;" src="http://virtualbreez.com/'.getProductImage($item['id'],$con).'" /></td>
+                                  <td> <img width="100px" height="100px"  style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;" src="http://virtualbreez.com/'.getProductImage($item['id'],$conn).'" /></td>
                                     <td   style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;">'.$item['name'].'</td>
                                     <td  style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;">'.$item['qty'].'</td>
                                     <td  style="padding: 15px;text-align: left;border-bottom: 1px solid #ddd;">'.toMoney($item['price']).'</td>
@@ -187,7 +145,7 @@ $Msg.='<div style="width:100%;"><table align="center" style="width:50%;" >
 
 
 $Msg.='</table>';
-
+     
 
 if (isset($_POST['first_name'])) {
 
@@ -198,6 +156,9 @@ $id =InsertUserDetails($_POST['first_name'],$_POST['last_name'],$_POST['country'
                     {
                       
                     InsertOrder($item['id'],$item['qty'],$id);
+                    
+        
+                    
                     }
    if( SendEmail($Msg,$_POST['email_address'])){
        echo 'TRUE';
@@ -207,83 +168,121 @@ $id =InsertUserDetails($_POST['first_name'],$_POST['last_name'],$_POST['country'
         echo 'false';
     }
 
+    
+    
+    
+    global $DB_NAME;
+$sql = "SELECT * FROM ".$DB_NAME.".userdetails where UserDetailID=".$id;
+  $result=$conn->query($sql)->fetchAll(PDO::FETCH_BOTH);
+    foreach($result as $row)
+    {
+        
+        $Firstname =$row["FirstName"];
+        $LastName=$row["LastName"];
+        $Address=$row["Address"];
+        $Country=$row["Country"];
+        $City=$row["City"];
+        $State=$row["State"];
+        $ZipCode=$row["ZipCode"];
+        $Contact=$row["Contact"];
+        $Email=$row["emailAddress"];
+    }
+    
+    
+    
+    
+    
+
+//$resultSize = $con->query($sqlSize);
+
+
+
 }
 
 
 
 function InsertOrder($productID,$productQuantity,$UserDetailID){
-        global $con;
-    $sql = "INSERT INTO OrderDetails (productQuantity, productID, UserDetailID) VALUES('".$productID."','".$productQuantity."','".$UserDetailID."');";
+        global $conn;
+        global $DB_NAME;
+    $sql = "INSERT INTO ".$DB_NAME.".OrderDetails (productQuantity, productID, UserDetailID) VALUES('".$productID."','".$productQuantity."','".$UserDetailID."');";
     
   
-    $last_id=0;
-if (mysqli_query($con, $sql)) {
-    $last_id = mysqli_insert_id($con);
-    echo "New record created successfully.";
-} else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($con);
-}
+ try{
+    
+    // use exec() because no results are returned
+    $conn->exec($sql);
+    echo "New record created successfully";
+    }
+    catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
+    }
     
 }
 
 
 function InsertUserDetails($first_name,$last_name,$country,$city,$state,$zipcode,$address,$contact,$email){
-    global $con;
-    $sql = "INSERT INTO UserDetails (FirstName, LastName, Address,Country,City,State,ZipCode,Contact,emailAddress) VALUES('".$first_name."','".$last_name."','".$country."',
+    global $conn;
+    global $DB_NAME;
+    $sql = "INSERT INTO ".$DB_NAME.".UserDetails (FirstName, LastName, Address,Country,City,State,ZipCode,Contact,emailAddress) VALUES('".$first_name."','".$last_name."','".$country."',
             '".$city."','".$state."','".$zipcode."',
             '".$address."','".$contact."','".$email."');";
+ try{
     
-  
-    $last_id=0;
-if (mysqli_query($con, $sql)) {
-    $last_id = mysqli_insert_id($con);
-    echo "New record created successfully. Last inserted ID is: " . $last_id;
-} else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($con);
+    $conn->exec($sql);
+    echo "New record created successfully";
+    }
+    catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
+    }
+     $last_id = $conn->lastInsertId();
+    return $last_id;
 }
 
-   return $last_id;
-}
-
-//echo $jcart->gettotal();
 
 function getProductImage($id,$con){
-    
-    
-    $productID=$id;
-    $sqlImg = "SELECT * FROM productImages p WHERE p.productID='".
-        $productID."' ";
-$resultImg = $con->query($sqlImg);
-if ($resultImg->num_rows > 0) {
-    // output data of each row
+        global $conn;
+        global $DB_NAME;
+        $sqlImg = "SELECT * FROM  ".$DB_NAME.".productImages p WHERE p.productID='".$id."' ";
+    try{
+  $result=$conn->query($sqlImg)->fetchAll(PDO::FETCH_BOTH);
     $i=0;
-    while($row = $resultImg->fetch_assoc()) {
+    foreach($result as $row)
+    {
+        
        $PRODUCT_IMG_URL[$i] =$row["Img_URL"];
         $i++;
     }
-} else {
-    echo "Product Image NOT FOUND";
-}
-    return $PRODUCT_IMG_URL[0];
+        }
+      catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
+    }
+ return $PRODUCT_IMG_URL[0];
 }
 
 function getProductBrand($id,$con){     
     $PRODUCT_DETAILS_BRANDID=$id;
-    $sqlBrand = "SELECT * FROM productbrand b , productDetails p WHERE p.`productBrand`=b.`companyID` AND ProductID='".$PRODUCT_DETAILS_BRANDID."'";
-$resultBrand = $con->query($sqlBrand);
+    
+    
+       global $conn;
+        global $DB_NAME;
+        $sqlBrand = "SELECT * FROM ".$DB_NAME.".productbrand b , productDetails p WHERE p.`productBrand`=b.`companyID` AND ProductID='".$PRODUCT_DETAILS_BRANDID."'";
 
-
-if ($resultBrand->num_rows > 0) {
-    // output data of each row
-    $i=0;
-    while($row = $resultBrand->fetch_assoc()) {
+    try{
+  $result=$conn->query($sqlBrand)->fetchAll(PDO::FETCH_BOTH);
+    foreach($result as $row)
+    {
+        
        $PRODUCT_COMPANY_ID=$row["companyID"];
        $PRODUCT_DETAILS_BRAND=$row["companyName"];
-        
     }
-} else {
-    echo "Product Brand NOT FOUND";
-}
+        }
+      catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
+    }
     return array($PRODUCT_COMPANY_ID,$PRODUCT_DETAILS_BRAND);
 }
 require_once('common/mail-connect.php');
@@ -297,6 +296,13 @@ global $mailfrom;
 global $mailadd;
     $sess=1;
 $filepath="";
+    
+   echo $mailhost;
+echo $mailsmtpauth;
+echo $username;
+echo $userpass;
+echo $mailfrom;
+echo $mailadd;
 
     ini_set("include_path", $filepath);
 	require("assets/class.phpmailer.php");
@@ -379,7 +385,7 @@ tr:hover {background-color: #f5f5f5;}
                     {
                             echo '<div class="form-group">
                                 <div class="col-sm-3 col-xs-3">
-                                    <img class="img-responsive" src="'.getProductImage($item['id'],$con).'" />
+                                    <img class="img-responsive" src="'.getProductImage($item['id'],$conn).'" />
                                 </div>
                                 <div class="col-sm-6 col-xs-6">
                                     <div class="col-xs-12">'.$item['name'].'</div>
