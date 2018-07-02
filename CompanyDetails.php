@@ -2,6 +2,7 @@
 <?php
 include_once('libraries.php');
 include_once('Variables.php');
+   include_once('common/navbar.php'); 
 
 global $companyID;
 global $companyImg;
@@ -12,29 +13,24 @@ global $companyDescription;
 global $companyContact;
 global $companyEmail;
 global $companyAddress;
-    
+global $DB_NAME;
+global $conn;
     
   if(isset($_GET["companyID"]))
     {
         $companyID= $_GET["companyID"];
     }
-$con=mysqli_connect("localhost","root","","tst");
-// Check connection
-if (mysqli_connect_errno())
-  {
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  }
-$sql = "SELECT * FROM productbrand Where companyID=".$companyID;
-$sqlProduct = "SELECT * FROM productImages WHERE productID IN ( select productID from productdetails where productBrand=".$companyID.") Group By(productID);
-";
 
-$result = $con->query($sql);
-$resultProduct = $con->query($sqlProduct);
-//$resultSize = $con->query($sqlSize);
+     try{
 
-if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
+$sql = "SELECT * FROM ".$DB_NAME.".productbrand Where companyID=".$companyID;
+
+  $result=$conn->query($sql)->fetchAll(PDO::FETCH_BOTH);
+
+    foreach($result as $row)
+    {
+        
+     
        $companyName =$row["companyName"];
        $companyDescription = $row["companyDetails"];  
        $companyAddress = $row["companyAddress"];   
@@ -42,26 +38,34 @@ if ($result->num_rows > 0) {
        $companyContact = $row["companyContact"];  
        $companyImg = $row["companyImg"];
     }
-} else {
-    echo "Product Details NOT FOUND";
-}
-if ($resultProduct->num_rows > 0) {
-    // output data of each row
-    $i=0;
-    while($row = $resultProduct->fetch_assoc()) {
+    
+       }
+    catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
+    }
+
+     try{
+
+
+$sqlProduct = "SELECT * FROM ".$DB_NAME.".productImages WHERE productID IN ( select productID from ".$DB_NAME.".productdetails where productBrand=".$companyID.") Group By(productID);
+";
+
+  $result=$conn->query($sqlProduct)->fetchAll(PDO::FETCH_BOTH);
+         $i=0;
+    foreach($result as $row)
+    {
         
        $companyProductID[$i] =$row["productID"];
        $companyProductImg[$i] =$row["Img_URL"];
        $i++;
     }
-} else {
-    echo "Product Details NOT FOUND";
-}
-
-
-
-
-
+    
+       }
+    catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
+    }
 
 ?>
     

@@ -7,43 +7,50 @@ $cart= $jcart->get_contents();
 
 
 //echo $jcart->gettotal();
+
 function getProductImage($id,$con){
-    
-    
-    $productID=$id;
-    $sqlImg = "SELECT * FROM productImages p WHERE p.productID='".
-        $productID."' ";
-$resultImg = $con->query($sqlImg);
-if ($resultImg->num_rows > 0) {
-    // output data of each row
+        global $conn;
+        global $DB_NAME;
+        $sqlImg = "SELECT * FROM  ".$DB_NAME.".productImages p WHERE p.productID='".$id."' ";
+    try{
+  $result=$conn->query($sqlImg)->fetchAll(PDO::FETCH_BOTH);
     $i=0;
-    while($row = $resultImg->fetch_assoc()) {
+    foreach($result as $row)
+    {
+        
        $PRODUCT_IMG_URL[$i] =$row["Img_URL"];
         $i++;
     }
-} else {
-    echo "Product Image NOT FOUND";
+        }
+      catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
+    }
+ return $PRODUCT_IMG_URL[0];
 }
-    return $PRODUCT_IMG_URL[0];
-}
+
 
 function getProductBrand($id,$con){     
     $PRODUCT_DETAILS_BRANDID=$id;
-    $sqlBrand = "SELECT * FROM productbrand b , productDetails p WHERE p.`productBrand`=b.`companyID` AND ProductID='".$PRODUCT_DETAILS_BRANDID."'";
-$resultBrand = $con->query($sqlBrand);
+    
+    
+       global $conn;
+        global $DB_NAME;
+        $sqlBrand = "SELECT * FROM ".$DB_NAME.".productbrand b ,".$DB_NAME.".productDetails p WHERE p.`productBrand`=b.`companyID` AND ProductID='".$PRODUCT_DETAILS_BRANDID."'";
 
-
-if ($resultBrand->num_rows > 0) {
-    // output data of each row
-    $i=0;
-    while($row = $resultBrand->fetch_assoc()) {
+    try{
+  $result=$conn->query($sqlBrand)->fetchAll(PDO::FETCH_BOTH);
+    foreach($result as $row)
+    {
+        
        $PRODUCT_COMPANY_ID=$row["companyID"];
        $PRODUCT_DETAILS_BRAND=$row["companyName"];
-        
     }
-} else {
-    echo "Product Brand NOT FOUND";
-}
+        }
+      catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
+    }
     return array($PRODUCT_COMPANY_ID,$PRODUCT_DETAILS_BRAND);
 }
 global $cartLenght;
@@ -109,10 +116,10 @@ function CheckOut(){
                             <form method="post" action="./Checkout.php"><tr>
                         <td class="col-sm-8 col-md-6">
                         <div class="media">
-                            <a class="iconShade thumbnail pull-left" href="./product-Details.php?productID='.$item['id'].'" style="margin-right:10px;"> <img class="media-object" src="'.getProductImage($item['id'],$con).'" style="width: 72px; height: 72px;"> </a>
+                            <a class="iconShade thumbnail pull-left" href="./product-Details.php?productID='.$item['id'].'" style="margin-right:10px;"> <img class="media-object" src="'.getProductImage($item['id'],$conn).'" style="width: 72px; height: 72px;"> </a>
                             <div class="media-body">
                                 <h4 class="media-heading"><a href="./product-Details.php?productID='.$item['id'].'">'.$item['name'].'</a></h4>
-                                <h5 class="media-heading"> by <a href="./CompanyDetails.php?companyID='.getProductBrand($item['id'],$con)[0].'">'.getProductBrand($item['id'],$con)[1].'</a></h5>
+                                <h5 class="media-heading"> by <a href="./CompanyDetails.php?companyID='.getProductBrand($item['id'],$conn)[0].'">'.getProductBrand($item['id'],$conn)[1].'</a></h5>
                                  
                             </div>
                         </div></td>
