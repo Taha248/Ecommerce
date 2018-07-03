@@ -3,7 +3,12 @@
 
 include_once('libraries.php');
 include_once('Variables.php');
+<<<<<<< HEAD
+   include_once('common/navbar.php');
+
+=======
    include_once('common/navbar.php'); 
+>>>>>>> 05696e2e3041f5892f5a7071c7c9657d0a6385ee
 
 global $productID;
 global $PRODUCT_DETAILS_HEADING;
@@ -23,26 +28,41 @@ global $conn;
 
   if(isset($_GET["productID"]))
     {
-        $productID= $_GET["productID"];
+        $productArr = explode("-",$_GET["productID"]);
+        $productID = $productArr[1];
     }
 
 
      try{
+<<<<<<< HEAD
+
+=======
  
+>>>>>>> 05696e2e3041f5892f5a7071c7c9657d0a6385ee
     $sql = "SELECT * FROM ".$DB_NAME.".productdetails p WHERE p.productID='".$productID."' ";
     $result=$conn->query($sql)->fetchAll(PDO::FETCH_BOTH);
 
     foreach($result as $row)
     {
        $PRODUCT_DETAILS_HEADING =$row["productName"];
-       $PRODUCT_DETAILS_PRICE = $row["productPrice"];  
-       $PRODUCT_DETAILS_ACTUAL_PRICE = $row["productActualPrice"];   
+       $PRODUCT_DETAILS_PRICE = $row["productPrice"];
+       $PRODUCT_DETAILS_ACTUAL_PRICE = $row["productActualPrice"];
        $PRODUCT_DETAILS_DESCP =$row["productDescription"];
-       $PRODUCT_DETAILS_ORIGIN = $row["productOrigin"];  
+       $PRODUCT_DETAILS_ORIGIN = $row["productOrigin"];
        $PRODUCT_DETAILS_BRANDID = $row["productBrand"];
        $PRODUCT_DETAILS_DELIVERY =$row["productDelivery"];
-       $PRODUCT_DETAILS_COLOR = $row["productColors"]; 
+       $PRODUCT_DETAILS_COLOR = $row["productColors"];
        $PRODUCT_DETAILS_RATING = $row["productRating"];
+<<<<<<< HEAD
+
+    }
+
+       }
+    catch(PDOException $e)
+    {
+    echo  "<br>" . $e->getMessage();
+    }
+=======
         
     }
     
@@ -52,6 +72,7 @@ global $conn;
     echo  "<br>" . $e->getMessage();
     }
 
+>>>>>>> 05696e2e3041f5892f5a7071c7c9657d0a6385ee
 
 
 
@@ -59,16 +80,31 @@ global $conn;
      try{
  $sqlImg = "SELECT * FROM ".$DB_NAME.".productImages p WHERE p.productID='".$productID."' ";
 
+<<<<<<< HEAD
+     try{
+ $sqlImg = "SELECT * FROM ".$DB_NAME.".productImages p WHERE p.productID='".$productID."' ";
+
+=======
+>>>>>>> 05696e2e3041f5892f5a7071c7c9657d0a6385ee
     $result=$conn->query($sqlImg)->fetchAll(PDO::FETCH_BOTH);
 $i=0;
     foreach($result as $row)
     {
+<<<<<<< HEAD
+
+       $PRODUCT_IMG_URL[$i] = $serveruri. $row["Img_URL"];
+        $i++;
+
+    }
+
+=======
       
        $PRODUCT_IMG_URL[$i] =$row["Img_URL"];
         $i++;
         
     }
     
+>>>>>>> 05696e2e3041f5892f5a7071c7c9657d0a6385ee
        }
     catch(PDOException $e)
     {
@@ -92,7 +128,11 @@ $i=0;
        $PRODUCT_DETAILS_SIZE[$i] =$row["productSize"];
         $i++;
     }
+<<<<<<< HEAD
+
+=======
     
+>>>>>>> 05696e2e3041f5892f5a7071c7c9657d0a6385ee
        }
     catch(PDOException $e)
     {
@@ -108,7 +148,11 @@ $i=0;
     {
        $PRODUCT_DETAILS_BRAND=$row["companyName"];
     }
+<<<<<<< HEAD
+
+=======
     
+>>>>>>> 05696e2e3041f5892f5a7071c7c9657d0a6385ee
        }
     catch(PDOException $e)
     {
@@ -127,13 +171,13 @@ $i=0;
 
 
 ?>
-    
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <title>Bootstrap Example</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
+
 
     <script ><?php include_once('css/product-carousel.js'); ?></script>
     <script>
@@ -150,7 +194,7 @@ $('.multi-item-carousel .item').each(function(){
     next = $(this).siblings(':first');
   }
   next.children(':first-child').clone().appendTo($(this));
-  
+
   if (next.next().length>0) {
     next.next().children(':first-child').clone().appendTo($(this));
   } else {
@@ -175,7 +219,7 @@ $('.multi-item-carousel .item').each(function(){
             }
         }
         @media (max-width: 768px){
-     
+
            .cardcont{
                 width: 98%;
             }
@@ -198,26 +242,26 @@ $('.multi-item-carousel .item').each(function(){
     margin-right: auto;
     margin-left: auto;
     margin-top: -14px;
-      background-color:white;border-radius:5px 5px 5px 5px;box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.19);                              
+      background-color:white;border-radius:5px 5px 5px 5px;box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.19);
                               ">
 
-	
+
 <div class="product-card" style="border:none;">
 	<div class="product-row">
 		<aside class="col-sm-5 border-right">
-<article class="gallery-wrap"> 
+<article class="gallery-wrap">
 <div class="img-big-wrap">
-    
-    
+
+
     <!-- Lets make a simple image magnifier -->
 <div class="magnify" style="width:100%">
-	
-	
+
+
 	<!-- This is the magnifying glass which will contain the original/large version -->
 	<div class="large" style="background: url('<?php echo $PRODUCT_IMG_URL[0]; ?>') no-repeat;"></div>
 	<!-- This is the small image -->
 	<img class="small img-responsive" src="<?php echo $PRODUCT_IMG_URL[0]; ?>" width="82%" style="height:auto;"/>
-	
+
 </div>
 
 <!-- Lets load up prefixfree to handle CSS3 vendor prefixes -->
@@ -226,24 +270,24 @@ $('.multi-item-carousel .item').each(function(){
 
 <!-- Time for jquery action -->
 <script src="http://thecodeplayer.com/uploads/js/jquery-1.7.1.min.js" type="text/javascript"></script>
-    
+
 <script><?php include_once('js/magnifier.js'); ?></script>
-    
+
 </div> <!-- slider-product.// -->
 <div class="img-small-wrap">
-    <?php 
+    <?php
    for($i=0;$i<sizeof($PRODUCT_IMG_URL);$i++)
     {
-        echo  '<div class="item-gallery '; 
-            if($i==0) 
-                echo' active'; 
+        echo  '<div class="item-gallery ';
+            if($i==0)
+                echo' active';
             echo '"> <img src="';
             echo $PRODUCT_IMG_URL[$i];
             echo'"> </div>';
-      
+
     }
     ?>
-    
+
 
 </div> <!-- slider-nav.// -->
 </article> <!-- gallery-wrap .end// -->
@@ -251,27 +295,27 @@ $('.multi-item-carousel .item').each(function(){
 		<aside class="col-sm-7">
 <article class="card-body p-5">
 	<h3 class="title mb-3">
-        <?php 
+        <?php
         echo $PRODUCT_DETAILS_HEADING;
         ?></h3>
 
-<p class="price-detail-wrap"> 
-	<span class="price h3 " style="color:#8FC163;"> 
+<p class="price-detail-wrap">
+	<span class="price h3 " style="color:#8FC163;">
 		<span class="currency"></span><span class="num"><?php echo toMoney($PRODUCT_DETAILS_PRICE);?>/-</span>
-     
-	</span>    
-    <span class="price h3 " style="color:gray;"> 
+
+	</span>
+    <span class="price h3 " style="color:gray;">
         <span class="currency"></span><span style="font-size:12px;"><strike><?php echo toMoney($PRODUCT_DETAILS_ACTUAL_PRICE);?></strike></span>
-     
-	</span> 
-    
+
+	</span>
+
     <?php
         echo '	<div class="star-rating">
 										<ul class="list-inline">
                                         '; printRating($PRODUCT_DETAILS_RATING); echo '
 										</ul>
 									</div>';
-      
+
         ?>
 </p> <!-- price-detail-wrap .// -->
 <dl class="item-property">
@@ -286,7 +330,7 @@ $('.multi-item-carousel .item').each(function(){
   <dt>Brand</dt>
   <dd><a href=<?php echo "./CompanyDetails.php?companyID=".$PRODUCT_DETAILS_BRANDID; ?> ><?php echo $PRODUCT_DETAILS_BRAND; ?></a></dd>
 </dl>
-    
+
     <!-- item-property-hor .// -->
 <dl class="param param-feature">
   <dt>Color</dt>
@@ -311,15 +355,15 @@ $('.multi-item-carousel .item').each(function(){
 			<dl class="param param-inline">
 				  <dt>Size: </dt>
 				  <dd>
-				  
+
 			  	<select class="form-control form-control-sm" style="width:auto;">
-                    <?php  
+                    <?php
                     for($i=0;$i<sizeof($PRODUCT_DETAILS_SIZE);$i++)
                     {
                         echo '<option>'; echo $PRODUCT_DETAILS_SIZE[$i] ;  echo '</option>';
-                    } 
+                    }
                     ?>
-                        
+
                         </select>
 				  </dd>
 			</dl>  <!-- item-property .// -->
@@ -338,7 +382,7 @@ $('.multi-item-carousel .item').each(function(){
 <!--container.//-->
 
 
-    
+
      <?php include_once('footer.php'); ?>
 <style><?php include('css/index.css'); ?></style>
     </body>
